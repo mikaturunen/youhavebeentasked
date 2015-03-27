@@ -10,11 +10,13 @@
         <meta name="description" content="You have been tasked!">
         <meta name="author" content="Mika Turunen <mika.turunen@ymail.com>">
 
-        <link rel="stylesheet" href="css/styles.css?v=1.0">
-        <script src="js/scripts.js"></script>
-    </head>
+        <!-- Loading platform support before any code starts touching the DOM -->
+        <script src="/public/bower/webcomponentsjs/webcomponents.min.js"></script>
 
+        <!-- Start loading all Polymer elements -->
+        <link rel="import" href="/public/elements/task/task.html">
+    </head>
     <body>
-        
+        <yhbt-task></yhbt-task>
     </body>
 </html>
