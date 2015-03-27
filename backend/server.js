@@ -5,8 +5,6 @@ var path = require("path");
 // TODO update front target
 app.use("/public", express.static(path.join(__dirname, "..", "/frontend")));
 
-
-// Currently serve out everything like this -- dish it out like it means something
 app.get("/", function (req, res) {
     res.send("Hello World!");
 });
