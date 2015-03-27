@@ -5,8 +5,9 @@ var path = require("path");
 // TODO update front target
 app.use("/public", express.static(path.join(__dirname, "..", "/frontend")));
 
+var indexLocation = path.join(__dirname, "..", "/frontend/index.html");
 app.get("/", function (req, res) {
-    res.send("Hello World!");
+    res.sendFile(indexLocation);
 });
 
 var server = app.listen(3000, function () {
