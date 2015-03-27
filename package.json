@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/mikaturunen/youhavebeentasked/issues"
   },
-  "homepage": "https://github.com/mikaturunen/youhavebeentasked"
+  "homepage": "https://github.com/mikaturunen/youhavebeentasked",
+  "dependencies": {
+    "express": "^4.12.3"
+  }
 }
