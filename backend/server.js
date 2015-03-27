@@ -1,5 +1,8 @@
-var express = require("express")
-var app = express()
+var express = require("express");
+var app = express();
+
+// TODO update front target
+app.use("/public", express.static(__dirname + "/frontend"));
 
 // Currently serve out everything like this -- dish it out like it means something
 app.get("*", function (req, res) {
