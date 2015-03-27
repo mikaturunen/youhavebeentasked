@@ -1,0 +1,20 @@
+{
+  "name": "youhavebeentasked",
+  "version": "0.0.0",
+  "description": "You have been tasked! Gamified task manager.",
+  "homepage": "https://github.com/mikaturunen/youhavebeentasked",
+  "authors": [
+    "Mika Turunen <mika.turunen@ymail.com>"
+  ],
+  "moduleType": [
+    "amd"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
