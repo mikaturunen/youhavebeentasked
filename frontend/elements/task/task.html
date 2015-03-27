@@ -1,7 +1,18 @@
 <link rel="import" href="/public/bower/polymer/polymer.html">
 
-<polymer-element name="yhbt-task" noscript>
+<polymer-element name="yhbt-task">
     <template>
-        <span> This is a simple <b>Task</b>.</span>
+        <div>
+            <span> This is a simple <b>Task</b>: {{task.title}}</span>
+        </div>
     </template>
+    <script>
+        Polymer({
+            task: {
+                description: "",
+                title: "",
+                events: []
+            }
+        });
+    </script>
 </polymer-element>
