@@ -2,13 +2,13 @@
 <link rel="import" href="/public/elements/task/task.html">
 <link rel="import" href="/public/bower/core-ajax/core-ajax.html">
 
-<polymer-element name="yhbt-task-list" noscript>
+<polymer-element name="yhbt-task-list">
     <template>
         <core-ajax url="/tasks" auto handleAs="json" response="{{tasks}}"></core-ajax>
         <span>List of tasks:</span>
         <template repeat="{{task in tasks}}">
             <yhbt-task task="{{task}}"></yhbt-task>
         </template>
-       
     </template>
+    <script src="/public/elements/task-list/task-list.js"></script>
 </polymer-element>

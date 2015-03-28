@@ -14,7 +14,8 @@
             task: {
                 description: "",
                 title: "",
-                events: []
+                events: [],
+                done: false
             },
 
             /**
@@ -23,8 +24,7 @@
             start: function() {
                 var currentDate = Date.now();
                 this.task.events.push({
-                    start: currentDate, 
-                    end: currentDate
+                    start: currentDate
                 });
             },
             
@@ -33,7 +33,7 @@
              */
             pause: function() {
                 this.task.events[this.events.length - 1].end = Date.now();
-            }
+            },
 
             /**
              * Finishes the current task and marks it as done.
