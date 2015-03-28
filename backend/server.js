@@ -29,7 +29,7 @@ var tasks = [
         title: "Clean the yard",
         description: "Clean pool, camper/boat, garage/shed",
         events: [{  
-            start: 1427241600
+            start: 1427241600,
             end: Date.now()
         }],
         done: true
