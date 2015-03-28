@@ -5,6 +5,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 
         <title>YHBT!</title>
         <meta name="description" content="You have been tasked!">
@@ -18,11 +19,13 @@
 
         <!-- Core elements -->
         <link rel="import" href="/public/bower/core-scaffold/core-scaffold.html">
+        <link rel="import" href="/public/bower/core-menu/core-menu.html">
         <link rel="import" href="/public/bower/core-animated-pages/core-animated-pages.html">
         <link rel="import" href="/public/bower/core-animated-pages/transitions/slide-from-right.html">
 
         <!-- Paper elements -->
         <link rel="import" href="/public/bower/paper-button/paper-button.html">
+        <link rel="import" href="/public/bower/paper-item/paper-item.html">
 
         <!-- Start loading all Polymer elements -->
         <link rel="import" href="/public/elements/task/task.html">
@@ -30,48 +33,49 @@
     </head>
 
     <body unresolved fullbleed>
-        <core-scaffold id="scaffold">
-            <!-- Navigation -->
-            <nav>
-                <core-toolbar tool>
-                    <span>You've been tasked!</span>
+        <template is="auto-binding">
+            <core-scaffold>
+                <!-- Navigation -->
+                <nav>
+                    <core-toolbar tool>
+                        <span>You've been tasked!</span>
+                    </core-toolbar>
+
+                    <core-menu selected="1">
+                        <paper-item noink>
+                            <core-icon icon="label-outline"></core-icon>
+                            <a href="#newtask">Create Task</a>
+                        </paper-item>
+                        <paper-item noink>
+                            <core-icon icon="label-outline"></core-icon>
+                            <a href="#tasks">Show tasks</a>
+                        </paper-item>
+                    </core-menu>
+                </nav>
+               
+                <core-toolbar tool flex>
+                    <!-- flex spaces this element and justifies the icons to the right-side -->
+                    <div flex></div>
+                    <!-- TODO logout + other behavior potentially accessible from the toolbar -->
+                    <core-icon-button icon="refresh"></core-icon-button>
+                    <core-icon-button icon="add"></core-icon-button>
                 </core-toolbar>
 
-                <core-menu selected="1">
-                    <paper-item noink>
-                        <core-icon icon="label-outline"></core-icon>
-                        <a href="#newtask">Create Task</a>
-                    </paper-item>
-                    <paper-item noink>
-                        <core-icon icon="label-outline"></core-icon>
-                        <a href="#tasks">Show tasks</a>
-                    </paper-item>
-                </core-menu>
-            </nav>
-           
-
-            <core-toolbar tool flex>
-                <!-- flex spaces this element and justifies the icons to the right-side -->
-                <div flex>Application</div>
-                <!-- TODO logout + other behavior potentially accessible from the toolbar -->
-                <core-icon-button icon="refresh"></core-icon-button>
-                <core-icon-button icon="add"></core-icon-button>
-            </core-toolbar>
-
-            <!-- Content -->
-            <div layout horizontal center-center fit>
-                <!-- Filled with pages -->
-                <core-animated-pages selected="1" transitions="slide-from-right">
-                    <section layout vertical center-center>
-                        <div>Single</div>
-                    </section>
-                    <section layout vertical center-center>
-                        <div>
-                            <yhbt-task-list></yhbt-task-list>
-                        </div>
-                    </section>
-                </core-animated-pages>
-            </div>
-        </core-scaffold>
+                <!-- Content -->
+                <div layout horizontal center-center fit>
+                    <!-- Filled with pages -->
+                    <core-animated-pages selected="1" transitions="slide-from-right">
+                        <section layout vertical center-center>
+                            <div>Single</div>
+                        </section>
+                        <section layout vertical center-center>
+                            <div>
+                                <yhbt-task-list></yhbt-task-list>
+                            </div>
+                        </section>
+                    </core-animated-pages>
+                </div>
+            </core-scaffold>
+        </template>
     </body>
 </html>
