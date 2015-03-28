@@ -18,10 +18,15 @@
         <script src="/public/bower/webcomponentsjs/webcomponents.min.js"></script>
 
         <!-- Core elements -->
-        <link rel="import" href="/public/bower/core-scaffold/core-scaffold.html">
-        <link rel="import" href="/public/bower/core-menu/core-menu.html">
         <link rel="import" href="/public/bower/core-animated-pages/core-animated-pages.html">
         <link rel="import" href="/public/bower/core-animated-pages/transitions/slide-from-right.html">
+        <link rel="import" href="/public/bower/core-scaffold/core-scaffold.html">
+        <link rel="import" href="/public/bower/core-icon-button/core-icon-button.html">
+        <link rel="import" href="/public/bower/core-icon/core-icon.html">
+        <link rel="import" href="/public/bower/core-menu/core-menu.html">
+        <link rel="import" href="/public/bower/core-toolbar/core-toolbar.html">
+        <link rel="import" href="/public/bower/core-ajax/core-ajax.html">
+        <link rel="import" href="/public/bower/flatiron-director/flatiron-director.html">
 
         <!-- Paper elements -->
         <link rel="import" href="/public/bower/paper-button/paper-button.html">
@@ -34,27 +39,24 @@
 
     <body unresolved fullbleed>
         <template is="auto-binding">
-            <core-scaffold>
+            <core-scaffold id="scaffold">
                 <!-- Navigation -->
                 <nav>
                     <core-toolbar tool>
                         <span>You've been tasked!</span>
                     </core-toolbar>
 
-                    <core-menu selected="1">
-                        <paper-item noink>
-                            <core-icon icon="label-outline"></core-icon>
-                            <a href="#newtask">Create Task</a>
-                        </paper-item>
-                        <paper-item noink>
-                            <core-icon icon="label-outline"></core-icon>
-                            <a href="#tasks">Show tasks</a>
-                        </paper-item>
+                    <core-menu valueattr="hash" selected="{{route}}" on-core-select="{{menuItemSelected}}">
+                        <template repeat="{{view in views}}">
+                            <paper-item hash="{{view.hash}}" noink>
+                                <core-icon icon="label-outline"></core-icon>
+                                <a href="#{{view.hash}}">{{view.name}}</a>
+                            </paper-item>
+                        </template>
                     </core-menu>
                 </nav>
                
                 <core-toolbar tool flex>
-                    <!-- flex spaces this element and justifies the icons to the right-side -->
                     <div flex></div>
                     <!-- TODO logout + other behavior potentially accessible from the toolbar -->
                     <core-icon-button icon="refresh"></core-icon-button>
@@ -64,18 +66,33 @@
                 <!-- Content -->
                 <div layout horizontal center-center fit>
                     <!-- Filled with pages -->
-                    <core-animated-pages selected="1" transitions="slide-from-right">
-                        <section layout vertical center-center>
-                            <div>Single</div>
-                        </section>
-                        <section layout vertical center-center>
-                            <div>
-                                <yhbt-task-list></yhbt-task-list>
-                            </div>
-                        </section>
+                    <core-animated-pages 
+                        valueattr="hash"
+                        selected="{{route}}" 
+                        transitions="slide-from-right">
+
+                        <template repeat="{{view in views}}">
+                            <section hash="{{view.hash}}" layout vertical center-center>
+                                <div>{{view.name}}</div>
+                            </section>
+                        </template>
                     </core-animated-pages>
                 </div>
             </core-scaffold>
         </template>
+        <script>
+            var template = document.querySelector("template[is=\"auto-binding\"]"); 
+            
+            template.views = [
+                    { name: "New task", hash: "newtask" },
+                    { name: "Tasks", hash: "tasklist" }
+                ];
+
+            template.menuItemSelected = function(event, detail, sender) {
+                if (detail.isSelected) {
+                    this.$ && this.$.scaffold.closeDrawer();
+                }
+            };
+        </script
     </body>
 </html>
