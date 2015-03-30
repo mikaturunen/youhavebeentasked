@@ -53,9 +53,9 @@
                         selected="{{route}}" 
                         on-core-select="{{menuItemSelected}}">
                         
-                        <paper-item hash="newtask">
+                        <paper-item hash="activetasks">
                             <core-icon icon="label-outline"></core-icon>
-                            <a href="#newtask">New Task</a>
+                            <a href="#activetasks">Active Tasks</a>
                         </paper-item>
                     </core-menu>
                 </nav>
@@ -75,7 +75,7 @@
                         selected="{{route}}" 
                         transitions="slide-from-right">
 
-                        <section hash="newtask" layout vertical >
+                        <section hash="activetasks" layout vertical >
                             <div>
                                 <yhbt-task-list></yhbt-task-list>
                             </div>

@@ -6,6 +6,6 @@ Polymer({
      * Creates a new task.
      */
     createNewTask: function() {
-        console.log("TASKS: ", tasks);
+        console.log("TASKS: ", this.tasks);
     }
 });
