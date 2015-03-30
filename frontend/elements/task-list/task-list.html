@@ -4,8 +4,7 @@
 
 <polymer-element name="yhbt-task-list">
     <template>
-        <div>
-            <paper-button raised on-click="{{createNewTask}}">New task</paper-button>
+        <div>         
             <core-ajax url="/tasks" auto handleAs="json" response="{{tasks}}"></core-ajax>
             <template repeat="{{task in tasks}}">
                 <yhbt-task task="{{task}}"></yhbt-task>
