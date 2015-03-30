@@ -1,12 +1,26 @@
 <link rel="import" href="/public/bower/polymer/polymer.html">
+<link rel="import" href="/public/bower/core-collapse/core-collapse.html">
 
 <polymer-element 
     name="yhbt-task"
     attributes="task">
     
     <template>
+        <style>
+        .collapse-content {
+            padding: 15px;
+            border: 1px solid #dedede;
+        }
+        </style>
+
         <div class="task">
-            <span> This is a simple <b>Task</b>: {{task.title}}</span>
+            <div on-click="{{toggle}}">{{task.title}}</div>
+
+            <core-collapse id="{{task.id | createId}}">
+                <div class="collapse-content">
+                    {{task.description}}
+                </div>
+            </core-collapse>
         </div>
     </template>
     <script>
@@ -16,6 +30,14 @@
                 title: "",
                 events: [],
                 done: false
+            },
+
+            createId: function(value) {
+                return "task-" + value;
+            },  
+
+            toggle: function() {
+                this.$["task-" + this.task.id].toggle();
             },
 
             /**

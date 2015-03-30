@@ -12,6 +12,7 @@ app.get("/", function (req, res) {
 
 var tasks = [
     {
+        id: 1,
         title: "Do the laundry",
         description: "Sort into loads, wash them, hang permanent press, dryer items and fold/ut away",
         events: [{  
@@ -20,12 +21,14 @@ var tasks = [
         done: false
     },
     {
+        id: 2,
         title: "Floor cleaning",
         description: "Dry mop/sweep, wet mop/scrub floors, vacuum, shampoo carpets, wax (If you are really ambitious!)",
         events: [],
         done: false
     },
     {
+        id: 3
         title: "Clean the yard",
         description: "Clean pool, camper/boat, garage/shed",
         events: [{  
