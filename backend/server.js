@@ -28,7 +28,7 @@ var tasks = [
         done: false
     },
     {
-        id: 3
+        id: 3,
         title: "Clean the yard",
         description: "Clean pool, camper/boat, garage/shed",
         events: [{  

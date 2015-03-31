@@ -13,10 +13,10 @@
         }
         </style>
 
-        <div class="task">
-            <div on-click="{{toggle}}">{{task.title}}</div>
+        <div class="task" on-click="{{toggle}}">
+            <div>{{task.title}}</div>
 
-            <core-collapse id="{{task.id | createId}}">
+            <core-collapse>
                 <div class="collapse-content">
                     {{task.description}}
                 </div>
@@ -32,12 +32,8 @@
                 done: false
             },
 
-            createId: function(value) {
-                return "task-" + value;
-            },  
-
             toggle: function() {
-                this.$["task-" + this.task.id].toggle();
+                this.shadowRoot.querySelector("core-collapse").toggle();
             },
 
             /**
