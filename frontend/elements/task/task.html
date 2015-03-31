@@ -1,28 +1,44 @@
 <link rel="import" href="/public/bower/polymer/polymer.html">
 <link rel="import" href="/public/bower/core-collapse/core-collapse.html">
+<link rel="import" href="/public/bower/core-icon-button/core-icon-button.html">
 
 <polymer-element 
     name="yhbt-task"
     attributes="task">
-    
-    <template>
-        <style>
-        .collapse-content {
-            padding: 15px;
-            border: 1px solid #dedede;
+
+    <style>
+        html /deep/ h3 {
+            font-size: 14px;
+            margin: 0px;
+            font-weight: bold;
+            color: ;
         }
-        </style>
+        html /deep/ .task {
+            border: 1px solid #bebebe; 
+            padding: 5px; 
+            margin-top: 5px;
+            margin-bottom: 5px;
+            border-radius: 2px; 
+            background-color: #fff; 
+            color: #555;
+        }
 
-        <div class="task" on-click="{{toggle}}">
-            <div>{{task.title}}</div>
+    </style>
 
-            <core-collapse>
-                <div class="collapse-content">
-                    {{task.description}}
-                </div>
-            </core-collapse>
+    <template>
+        <!-- TODO limit the task.title + task.description length if it gets too high, ellipse + cut --> 
+        <div class="task">
+            <div class="task-title">
+                <h3>{{task.title}}</h3>
+            </div>
+            <div class="task-description">
+                <span>{{task.description}}</span>
+            </div>      
+            <div class="task-edit">
+            </div>  
         </div>
     </template>
+    
     <script>
         Polymer({
             task: {
@@ -32,8 +48,8 @@
                 done: false
             },
 
-            toggle: function() {
-                this.shadowRoot.querySelector("core-collapse").toggle();
+            isTaskStarted: function() {
+                return 
             },
 
             /**

@@ -57,6 +57,11 @@
                             <core-icon icon="label-outline"></core-icon>
                             <a href="#activetasks">Active Tasks</a>
                         </paper-item>
+
+                        <paper-item hash="activetasks">
+                            <core-icon icon="label-outline"></core-icon>
+                            <a href="#task/1">Tasks 1</a>
+                        </paper-item>
                     </core-menu>
                 </nav>
                
@@ -78,6 +83,12 @@
                         <section hash="activetasks" layout vertical >
                             <div>
                                 <yhbt-task-list></yhbt-task-list>
+                            </div>
+                        </section>
+
+                        <section hash="task/:id" layout vertical >
+                            <div>
+                                <span>test {{id}}</span>
                             </div>
                         </section>
 

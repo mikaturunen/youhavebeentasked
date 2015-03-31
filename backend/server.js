@@ -5,11 +5,6 @@ var path = require("path");
 // TODO update front target
 app.use("/public", express.static(path.join(__dirname, "..", "/frontend")));
 
-var indexLocation = path.join(__dirname, "..", "/frontend/index.html");
-app.get("/", function (req, res) {
-    res.sendFile(indexLocation);
-});
-
 var tasks = [
     {
         id: 1,
@@ -42,6 +37,11 @@ var tasks = [
 app.get("/tasks", function(req, res) {
     console.log("Getting tasks");
     res.json(tasks);
+});
+
+var indexLocation = path.join(__dirname, "..", "/frontend/index.html");
+app.get("/", function (req, res) {
+    res.sendFile(indexLocation);
 });
 
 var server = app.listen(3000, function () {
