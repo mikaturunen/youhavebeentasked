@@ -28,10 +28,7 @@
     "core-icon-button": "Polymer/core-icon-button#~0.5.5",
     "core-animated-pages": "Polymer/core-animated-pages#~0.5.5",
     "core-icon": "Polymer/core-icon#~0.5.5",
-    "flatiron-director": "Polymer/flatiron-director#~0.5.0",
     "core-collapse": "Polymer/core-collapse#~0.5.5",
-    "more-routing": "Polymore/more-routing#~0.5.0",
-    "app-router": "erikringsmuth/app-router#~2.6.0",
     "app-states": "~0.6.9"
   }
 }
