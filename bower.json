@@ -31,6 +31,7 @@
     "flatiron-director": "Polymer/flatiron-director#~0.5.0",
     "core-collapse": "Polymer/core-collapse#~0.5.5",
     "more-routing": "Polymore/more-routing#~0.5.0",
-    "app-router": "erikringsmuth/app-router#~2.6.0"
+    "app-router": "erikringsmuth/app-router#~2.6.0",
+    "app-states": "~0.6.9"
   }
 }

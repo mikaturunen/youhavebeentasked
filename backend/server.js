@@ -40,7 +40,7 @@ app.get("/tasks", function(req, res) {
 });
 
 var indexLocation = path.join(__dirname, "..", "/frontend/index.html");
-app.get("/", function (req, res) {
+app.get("*", function (req, res) {
     res.sendFile(indexLocation);
 });
 
