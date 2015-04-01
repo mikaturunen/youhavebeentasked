@@ -75,7 +75,6 @@
                     <app-states mode="hash">
                         <app-state id="home" url="/">
                             <template target="#page" is="states-template">
-                                <p>test</p>
                             </template>
 
                             <app-state id="activetasks">
@@ -83,6 +82,14 @@
                                     <p>tasklist</p>
                                     <yhbt-task-list></yhbt-task-list>
                                 </template>
+                            </app-state>
+
+                            <app-state id="task">
+                                <app-state urlPostfix=":taskId" bindUrlParams>
+                                    <template target="#page" is="states-template">
+                                        <p>task id is: {{urlParams.taskId}}</p>
+                                    </template>
+                                </app-state>
                             </app-state>
                         </app-state>
                     </app-states>
