@@ -5,6 +5,7 @@ var path = require("path");
 // TODO update front target
 app.use("/public", express.static(path.join(__dirname, "..", "/frontend")));
 
+/** @type {Object[]} List of temp tasks before I move them to the db - should happen really soon now */
 var tasks = [
     {
         id: 1,
@@ -34,6 +35,7 @@ var tasks = [
     }
 ];
 
+// TODO move rest routes to their own location
 app.get("/tasks", function(req, res) {
     console.log("Getting tasks");
     res.json(tasks);
@@ -44,6 +46,7 @@ app.get("*", function (req, res) {
     res.sendFile(indexLocation);
 });
 
+// Start the server
 var server = app.listen(3000, function () {
     var host = server.address().address;
     var port = server.address().port;
