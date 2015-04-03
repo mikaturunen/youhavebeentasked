@@ -7,17 +7,18 @@
 <polymer-element name="yhbt-task-list">
     <template>
         <div>         
-            <core-ajax url="/api/tasks" 
-                auto 
-                handleAs="json" 
-                loading="{{isLoadingContent}}" 
-                response="{{tasks}}"></core-ajax>
-                
+            <!-- Used to fetch all the tasks -->
+            <core-ajax url="/api/tasks" auto handleAs="json" loading="{{isLoadingContent}}" response="{{tasks}}"></core-ajax>
+            <!-- Creates new tasks with -->
+            <core-ajax id="createTask" url="/api/tasks/new" method="POST" handleAs="json" response="{{tasks}}"></core-ajax>
+
             <template if="{{isLoadingContent}}">
                 <paper-spinner active></paper-spinner>
             </template>
 
             <template if="{{!isLoadingContent}}">
+                <paper-button raised on-click="{{createNewTask}}"></paper-button>
+
                 <template repeat="{{task in tasks}}">
                     <yhbt-task task="{{task}}"></yhbt-task>
                 </template>

@@ -9,6 +9,8 @@ Polymer({
      * Creates a new task.
      */
     createNewTask: function() {
-        console.log("TASKS: ", this.tasks);
+        console.log("Creating a new task.");
+        this.$.createTask.body = { foo: "bar" };
+        this.$.createTask.go();
     }
 });
