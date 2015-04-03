@@ -1,3 +1,6 @@
+html /deep/ paper-item a {
+  color: white;
+}
 
 body {
   font-family: 'Roboto', sans-serif;
