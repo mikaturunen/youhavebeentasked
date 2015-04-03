@@ -9,7 +9,7 @@ app.use("/public", express.static(path.join(__dirname, "..", "/frontend")));
 // Initialize all REST routes
 tasks.init(app);
 
-// Making sure all the rest of the routes get index.html as a return result
+// Rest of the pages get index.html and 404 will be handled on the front 
 var indexLocation = path.join(__dirname, "..", "/frontend/index.html");
 app.get("*", function (req, res) {
     res.sendFile(indexLocation);
