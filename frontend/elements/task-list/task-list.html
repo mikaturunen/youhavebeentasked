@@ -1,13 +1,26 @@
 <link rel="import" href="/public/bower/polymer/polymer.html">
-<link rel="import" href="/public/elements/task/task.html">
 <link rel="import" href="/public/bower/core-ajax/core-ajax.html">
+<link rel="import" href="/public/bower/paper-spinner/paper-spinner.html">
+
+<link rel="import" href="/public/elements/task/task.html">
 
 <polymer-element name="yhbt-task-list">
     <template>
         <div>         
-            <core-ajax url="/tasks" auto handleAs="json" response="{{tasks}}"></core-ajax>
-            <template repeat="{{task in tasks}}">
-                <yhbt-task task="{{task}}"></yhbt-task>
+            <core-ajax url="/api/tasks" 
+                auto 
+                handleAs="json" 
+                loading="{{isLoadingContent}}" 
+                response="{{tasks}}"></core-ajax>
+                
+            <template if="{{isLoadingContent}}">
+                <paper-spinner active></paper-spinner>
+            </template>
+
+            <template if="{{!isLoadingContent}}">
+                <template repeat="{{task in tasks}}">
+                    <yhbt-task task="{{task}}"></yhbt-task>
+                </template>
             </template>
         </div>
     </template>
