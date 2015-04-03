@@ -39,7 +39,7 @@ var taskRoutes = {
      */
     init: function(app) {
         // TODO move rest routes to their own location
-        app.get("/REST/tasks", function(req, res) {
+        app.get("/api/tasks", function(req, res) {
             console.log("Getting tasks");
             res.json(taskList);
         });
