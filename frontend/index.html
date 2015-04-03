@@ -59,12 +59,7 @@
 
                         <paper-item>
                             <core-icon icon="label-outline"></core-icon>
-                            <a href="#/parties">Parties</a>
-                        </paper-item>
-
-                        <paper-item>
-                            <core-icon icon="label-outline"></core-icon>
-                            <a href="#/stats">Stats</a>
+                            <a href="#/parties">Party Management</a>
                         </paper-item>
 
                         <paper-item>
@@ -92,9 +87,33 @@
                             <template target="#page" is="states-template">
                             </template>
 
-                            <app-state id="activetasks">
+                            <app-state id="today">
+                                <template target="#page" is="states-template" layout vertical center-center>
+                                    today
+                                </template>
+                            </app-state>
+
+                            <app-state id="tasks">
                                 <template target="#page" is="states-template">
                                     <yhbt-task-list></yhbt-task-list>
+                                </template>
+                            </app-state>
+
+                            <app-state id="parties">
+                                <template target="#page" is="states-template">
+                                    parties
+                                </template>
+                            </app-state>
+
+                            <app-state id="stats">
+                                <template target="#page" is="states-template">
+                                    stats
+                                </template>
+                            </app-state>
+
+                            <app-state id="personal">
+                                <template target="#page" is="states-template">
+                                    personal
                                 </template>
                             </app-state>
 
