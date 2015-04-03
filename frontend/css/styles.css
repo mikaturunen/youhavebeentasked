@@ -7,10 +7,20 @@ body {
   font-weight: 300;
 }
 
-core-animated-pages {
+html /deep/ section {
   width: 100%;
   height: 100%;
   overflow: hidden;
+}
+
+html /deep/ yhbt-task-list {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+html section, html /deep/ section {
+  padding: 10px;
 }
 
 core-animated-pages > * {
@@ -122,10 +132,7 @@ html .wrapper,
 html /deep/ .wrapper {
 
 }
-html section,
-html /deep/ section {
-  padding: 10px;
-}
+
 html section[hero],
 html /deep/ section[hero] {
   background-color: #e4e7e7;

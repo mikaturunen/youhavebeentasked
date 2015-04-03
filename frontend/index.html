@@ -79,7 +79,6 @@
                 <!-- Content -->
                 <div layout horizontal center-center fit>
                     <!-- Filled with pages -->
-
                     <section id="page" is="states-section"></section>
 
                     <app-states mode="hash">
@@ -88,14 +87,18 @@
                             </template>
 
                             <app-state id="today">
-                                <template target="#page" is="states-template" layout vertical center-center>
-                                    today
+                                <template target="#page" is="states-template">
+                                    <section>
+                                        
+                                    </section>
                                 </template>
                             </app-state>
 
                             <app-state id="tasks">
                                 <template target="#page" is="states-template">
-                                    <yhbt-task-list></yhbt-task-list>
+                                    <section layout vertical center-center>
+                                        <yhbt-task-list></yhbt-task-list>
+                                    </section>
                                 </template>
                             </app-state>
 
@@ -126,7 +129,6 @@
                             </app-state>
                         </app-state>
                     </app-states>
-
                 </div>
             </core-scaffold>
         </template>

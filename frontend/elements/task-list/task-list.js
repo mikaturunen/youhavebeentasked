@@ -6,10 +6,13 @@ Polymer({
     /** @type {Task[]} List of tasks. */
     tasks: [],
 
-    taskToAdd: {},
-
+    /**
+     * Adds a task into the Task list.
+     * @param {Object} event Event object from the core-ajax event.
+     */
     addTask: function(event) {
         var task = JSON.parse(event.detail.xhr.response);
+        
         console.log(task);
         this.tasks.push(task);
     },
