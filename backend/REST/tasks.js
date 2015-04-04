@@ -14,17 +14,23 @@ function getTaskList(req, res) {
     res.json(taskList);
 }
 
+/** Simply creates a new dummy task. */
 function newTask(req, res) {
     console.log(req.body);
-    res.json({ 
+
+    var task = { 
         id: generateId(),
         title: "new task",
         description: "...",
         events: [],
         done: false
-    });
+    }; 
+
+    taskList.push(task)
+    res.json(task);
 }
 
+// TODO move these to database after user management is done
 /** @type {Object[]} List of temp tasks before I move them to the db - should happen really soon now */
 var taskList = [ 
     { 
