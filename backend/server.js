@@ -6,8 +6,12 @@ var authentication = require("./auth/authentication");
 
 // TODO update front target
 app.use("/public", express.static(path.join(__dirname, "..", "/frontend")));
-authentication.init(app);
 
+authentication.init(app);
+app.post("/api/login", function(req, res) {
+    console.log("/api/login called - user attempting to login.", req.user, req.body);
+    res.json({ foo: "bar" });
+});
 // Initialize all REST routes
 tasks.init(app);
 
