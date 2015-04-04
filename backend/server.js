@@ -2,9 +2,11 @@ var express = require("express");
 var app = express();
 var path = require("path");
 var tasks = require("./REST/tasks");
+var authentication = require("./auth/authentication");
 
 // TODO update front target
 app.use("/public", express.static(path.join(__dirname, "..", "/frontend")));
+authentication.init(app);
 
 // Initialize all REST routes
 tasks.init(app);
