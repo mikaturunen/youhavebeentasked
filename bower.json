@@ -31,6 +31,7 @@
     "core-collapse": "Polymer/core-collapse#~0.5.5",
     "app-states": "~0.6.9",
     "paper-spinner": "Polymer/paper-spinner#~0.5.5",
-    "paper-dialog": "Polymer/paper-dialog#~0.5.5"
+    "paper-dialog": "Polymer/paper-dialog#~0.5.5",
+    "paper-input": "Polymer/paper-input#~0.5.5"
   }
 }
