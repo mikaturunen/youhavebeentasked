@@ -45,6 +45,9 @@
                 <paper-dialog heading="Login" id="Login">
                     <paper-input label="Username" floatingLabel="true"></paper-input>
                     <paper-input type="password" label="Password" floatingLabel="true"></paper-input>
+             
+                    <paper-button dismissive on-click="{{closeLogin}}" label="Cancel">Cancel</paper-button>
+                    <paper-button affirmative default on-click="{{closeLogin}}" label="Ok">Ok</paper-button>
                 </paper-dialog>
 
                 <!-- Navigation -->
@@ -80,7 +83,7 @@
                     <div flex>You've been tasked!</div>
                     <!-- TODO logout + other behavior potentially accessible from the toolbar -->
                     <!-- <core-icon-button icon="refresh"></core-icon-button>-->
-                    <core-icon-button on-click="{{account}}" icon="account-box"></core-icon-button>
+                    <core-icon-button on-click="{{openLogin}}" icon="account-box"></core-icon-button>
                 </core-toolbar>
 
                 <!-- Content -->
@@ -150,7 +153,10 @@
                 } 
             };
 
-            template.account = function() {
+            template.openLogin = function() {
+                this.$.Login.open();
+            };
+            template.closeLogin = function() {
                 this.$.Login.open();
             };
 
