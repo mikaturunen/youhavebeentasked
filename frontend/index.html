@@ -32,6 +32,7 @@
         <!-- Paper elements -->
         <link rel="import" href="/public/bower/paper-button/paper-button.html">
         <link rel="import" href="/public/bower/paper-item/paper-item.html">
+        <link rel="import" href="/public/bower/paper-input/paper-input.html">
         <link rel="import" href="/public/bower/paper-dialog/paper-dialog.html">
 
         <!-- YHBT elements -->
@@ -42,12 +43,17 @@
         <template is="auto-binding">
             <core-scaffold id="scaffold">
                 <!-- The actual login dialog for the system -->
-                <paper-dialog heading="Login" id="Login">
-                    <paper-input label="Username" floatingLabel="true"></paper-input>
-                    <paper-input type="password" label="Password" floatingLabel="true"></paper-input>
-             
-                    <paper-button dismissive on-click="{{closeLogin}}" label="Cancel">Cancel</paper-button>
-                    <paper-button affirmative default on-click="{{closeLogin}}" label="Ok">Ok</paper-button>
+                <paper-dialog heading="Login" backdrop="true" id="Login">
+                    <div> 
+                        <paper-input label="Username" floatingLabel="true"></paper-input> 
+                    </div>
+                    <div> 
+                        <paper-input type="password" label="Password" floatingLabel="true"></paper-input> 
+                    </div>
+                    <div> 
+                        <paper-button dismissive on-click="{{closeLogin}}" label="Cancel">Cancel</paper-button>
+                        <paper-button affirmative default on-click="{{closeLogin}}" label="Ok">Ok</paper-button>
+                    </div>
                 </paper-dialog>
 
                 <!-- Navigation -->
