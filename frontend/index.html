@@ -42,6 +42,22 @@
     <body unresolved fullbleed>
         <template is="auto-binding">
             <core-scaffold id="scaffold">
+                <!-- Tries to login the user-->
+                <core-ajax id="TryLoggingIn" url="/api/login" method="POST" handleAs="json" on-core-complete="{{loginResult}}"></core-ajax>
+                <!-- The actual login dialog for the system -->
+                <paper-dialog heading="Login" backdrop="true" id="Login">
+                    <div> 
+                        <paper-input id="Username" label="Username" floatingLabel="true"></paper-input> 
+                    </div>
+                    <div> 
+                        <paper-input id="Password" type="password" label="Password" floatingLabel="true"></paper-input> 
+                    </div>
+                    <div> 
+                        <paper-button dismissive on-click="{{closeLoginDialog}}" label="Cancel">Cancel</paper-button>
+                        <paper-button affirmative default on-click="{{tryLoggingIn}}" label="Ok">Ok</paper-button>
+                    </div>
+                </paper-dialog>
+
                 <!-- Navigation -->
                 <nav>
                     <core-toolbar tool>
@@ -72,20 +88,6 @@
                 </nav>
                
                 <core-toolbar tool flex>
-                    <!-- The actual login dialog for the system -->
-                    <paper-dialog heading="Login" backdrop="true" id="Login">
-                        <div> 
-                            <paper-input label="Username" floatingLabel="true"></paper-input> 
-                        </div>
-                        <div> 
-                            <paper-input type="password" label="Password" floatingLabel="true"></paper-input> 
-                        </div>
-                        <div> 
-                            <paper-button dismissive on-click="{{closeLoginDialog}}" label="Cancel">Cancel</paper-button>
-                            <paper-button affirmative default on-click="{{closeLoginDialog}}" label="Ok">Ok</paper-button>
-                        </div>
-                    </paper-dialog>
-
                     <div flex>You've been tasked!</div>
                     <!-- TODO logout + other behavior potentially accessible from the toolbar -->
                     <!-- <core-icon-button icon="refresh"></core-icon-button>-->
@@ -159,6 +161,18 @@
                 } 
             };
 
+            template.tryLoggingIn = function() {
+                console.log("Attempting to login the user.");
+                // Setting the user information in the POST data
+                this.$.TryLoggingIn.body = { 
+                    user: { 
+                        username: this.$.username, 
+                        password: this.$.password 
+                    }
+                };
+                // Attempting to login with the content
+                this.$.TryLoggingIn.go();
+            };
             template.openLoginDialog = function() {
                 this.$.Login.open();
             };
