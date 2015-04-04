@@ -42,20 +42,6 @@
     <body unresolved fullbleed>
         <template is="auto-binding">
             <core-scaffold id="scaffold">
-                <!-- The actual login dialog for the system -->
-                <paper-dialog heading="Login" backdrop="true" id="Login">
-                    <div> 
-                        <paper-input label="Username" floatingLabel="true"></paper-input> 
-                    </div>
-                    <div> 
-                        <paper-input type="password" label="Password" floatingLabel="true"></paper-input> 
-                    </div>
-                    <div> 
-                        <paper-button dismissive on-click="{{closeLogin}}" label="Cancel">Cancel</paper-button>
-                        <paper-button affirmative default on-click="{{closeLogin}}" label="Ok">Ok</paper-button>
-                    </div>
-                </paper-dialog>
-
                 <!-- Navigation -->
                 <nav>
                     <core-toolbar tool>
@@ -86,10 +72,24 @@
                 </nav>
                
                 <core-toolbar tool flex>
+                    <!-- The actual login dialog for the system -->
+                    <paper-dialog heading="Login" backdrop="true" id="Login">
+                        <div> 
+                            <paper-input label="Username" floatingLabel="true"></paper-input> 
+                        </div>
+                        <div> 
+                            <paper-input type="password" label="Password" floatingLabel="true"></paper-input> 
+                        </div>
+                        <div> 
+                            <paper-button dismissive on-click="{{closeLoginDialog}}" label="Cancel">Cancel</paper-button>
+                            <paper-button affirmative default on-click="{{closeLoginDialog}}" label="Ok">Ok</paper-button>
+                        </div>
+                    </paper-dialog>
+
                     <div flex>You've been tasked!</div>
                     <!-- TODO logout + other behavior potentially accessible from the toolbar -->
                     <!-- <core-icon-button icon="refresh"></core-icon-button>-->
-                    <core-icon-button on-click="{{openLogin}}" icon="account-box"></core-icon-button>
+                    <core-icon-button on-click="{{openLoginDialog}}" icon="account-box"></core-icon-button>
                 </core-toolbar>
 
                 <!-- Content -->
@@ -159,11 +159,11 @@
                 } 
             };
 
-            template.openLogin = function() {
+            template.openLoginDialog = function() {
                 this.$.Login.open();
             };
-            template.closeLogin = function() {
-                this.$.Login.open();
+            template.closeLoginDialog = function() {
+                this.$.Login.close();
             };
 
         </script
