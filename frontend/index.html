@@ -32,6 +32,7 @@
         <!-- Paper elements -->
         <link rel="import" href="/public/bower/paper-button/paper-button.html">
         <link rel="import" href="/public/bower/paper-item/paper-item.html">
+        <link rel="import" href="/public/bower/paper-dialog/paper-dialog.html">
 
         <!-- YHBT elements -->
         <link rel="import" href="/public/elements/task-list/task-list.html">
@@ -40,6 +41,12 @@
     <body unresolved fullbleed>
         <template is="auto-binding">
             <core-scaffold id="scaffold">
+                <!-- The actual login dialog for the system -->
+                <paper-dialog heading="Login" id="Login">
+                    <paper-input label="Username" floatingLabel="true"></paper-input>
+                    <paper-input type="password" label="Password" floatingLabel="true"></paper-input>
+                </paper-dialog>
+
                 <!-- Navigation -->
                 <nav>
                     <core-toolbar tool>
@@ -73,7 +80,7 @@
                     <div flex>You've been tasked!</div>
                     <!-- TODO logout + other behavior potentially accessible from the toolbar -->
                     <!-- <core-icon-button icon="refresh"></core-icon-button>-->
-                    <!-- <core-icon-button icon="add"></core-icon-button>-->
+                    <core-icon-button on-click="{{account}}" icon="account-box"></core-icon-button>
                 </core-toolbar>
 
                 <!-- Content -->
@@ -142,6 +149,11 @@
                     });
                 } 
             };
+
+            template.account = function() {
+                this.$.Login.open();
+            };
+
         </script
     </body>
 </html>
