@@ -55,6 +55,7 @@ function getConfiguration() {
  * @param  {Function} done Middleware verification callback for Express and Passport combination
  */
 function userSerialization(user, done) {
+    delete user.password;
     done(null, user);
 }
 
