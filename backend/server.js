@@ -9,7 +9,7 @@ app.use("/public", express.static(path.join(__dirname, "..", "/frontend")));
 
 authentication.init(app);
 app.post("/api/login", function(req, res) {
-    console.log("/api/login called - user attempting to login.", req.user, req.body);
+    console.log("/api/login called - user attempting to login.", req.user, req.body.user, req.body, req.params);
     res.json({ foo: "bar" });
 });
 // Initialize all REST routes
