@@ -1,0 +1,41 @@
+<link rel="import" href="/public/bower/polymer/polymer.html">
+
+<link rel="import" href="/public/bower/core-icon-button/core-icon-button.html">
+
+<link rel="import" href="/public/bower/core-ajax/core-ajax.html">
+<link rel="import" href="/public/bower/paper-spinner/paper-spinner.html">
+<link rel="import" href="/public/bower/paper-input/paper-input.html">
+<link rel="import" href="/public/bower/paper-dialog/paper-dialog.html">
+<link rel="import" href="/public/bower/paper-button/paper-button.html">
+
+
+<polymer-element name="login-icon" attributes="icon">
+    <template>
+        <!-- AJAX message for logging in the user, or trying to. -->
+        <core-ajax 
+            id="TryLoggingIn" 
+            url="/api/login" 
+            method="POST" 
+            handleAs="json"
+            contentType="application/json"
+            on-core-error="{{onLoginError}}"
+            on-core-response="{{onLoginSuccess}}"></core-ajax>
+
+        <!-- The actual login dialog for the system -->
+        <paper-dialog heading="Login" backdrop="true" id="Login">
+            <div> 
+                <paper-input id="Username" label="Username" floatingLabel="true"></paper-input> 
+            </div>
+            <div> 
+                <paper-input id="Password" type="password" label="Password" floatingLabel="true"></paper-input> 
+            </div>
+            <div> 
+                <paper-button dismissive on-click="{{closeLoginDialog}}" label="Cancel">Cancel</paper-button>
+                <paper-button affirmative default on-click="{{tryLoggingIn}}" label="Ok">Ok</paper-button>
+            </div>
+        </paper-dialog>
+
+        <core-icon-button on-click="{{openLoginDialog}}" icon="{{icon}}"></core-icon-button>
+    </template>
+    <script src="/public/elements/login-icon/login-icon.js"></script>
+</polymer-element>
