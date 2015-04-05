@@ -83,6 +83,8 @@ function setupMiddlewaresRelatingToPassport(app) {
     }));
     app.use(cookieParser());
     app.use(cookieSession({ 
+        // TODO read this from environmental variable / configuration - for now it's ok to be here as we have
+        //      no real users or anything
         secret: "~46:h.]^H#h5%)HgT0O5{Tfm97hw1Y"
     }));
 
