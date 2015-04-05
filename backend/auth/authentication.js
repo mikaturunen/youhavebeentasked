@@ -24,11 +24,11 @@ function tryFindingUser(user, done) {
     //      quick testing that we know passport + local strategy are configured correctly and after that 
     //      we can safely swap in a proper authentication
 
-    if (users[username] === undefined || users[username].password !== user.password) {
+    if (users[user.username] === undefined || users[user.username].password !== user.password) {
         return done(null, false, { message: "Incorrect username or password" });
     }
 
-    return done(null, users[username]);
+    return done(null, users[user.username]);
 }
 
 /**
@@ -63,27 +63,70 @@ function userDeSerialization(user, done) {
 }
 
 /**
+ * Setups the passport module itself for authentication and authorization use.
+ * @param  {Express.Application} app Express application
+ */
+function setupPassport(app) {
+    passport.use(getConfiguration());
+    passport.serializeUser(userSerialization);
+    passport.deserializeUser(userDeSerialization);
+}
+
+/**
+ * Setups all the Middleware used in conjuction with the authentication/authorization.
+ * @param  {Express.Application} app Express application
+ */
+function setupMiddlewaresRelatingToPassport(app) {
+    // Configuring required express middlewares in place
+    app.use(bodyParser.json({
+        extended: true
+    }));
+    app.use(cookieParser());
+    app.use(cookieSession({ 
+        secret: "~46:h.]^H#h5%)HgT0O5{Tfm97hw1Y"
+    }));
+
+    // Express based application, we'll reroute the passport middlewares in place
+    app.use(passport.initialize());
+    app.use(passport.session());
+}
+
+/**
+ * Setups authentication and authorization related routes in place for the user.
+ * @param  {Express.Application} app Express application
+ */
+function setupRoutes(app) {
+    app.post("/api/login", function(req, res) {
+        console.log("/api/login called - user attempting to login.");
+        console.log(req.body);
+
+        tryFindingUser(req.body.user, function(error, user, message) {
+            // NOTE tryFindingUser is not wrapped in Promise as the callback is passport specific callback,
+            //      here we are just taking advantage of the existing behavior
+            if (error || user === false) {
+                console.log("Error finding user");
+                // These are the two conditions that are specified in passport documents for failing cases; when user
+                // is false or when there is an error message present. 
+                // Forbidden with message.
+                res.status(403).jsonp(message);
+            } else {
+                console.log("User found!", user);
+                // User allowed in.
+                res.json(user);           
+            } 
+        });
+    });
+}
+
+/**
  * Authentication module that hides all the strategies and behavior behind it.
  * @module Authenticaton
  */
 var authentication = {
     init: function(app) {
-        passport.use(getConfiguration());
-        passport.serializeUser(userSerialization);
-        passport.deserializeUser(userDeSerialization);
-
-        // Configuring required express middlewares in place
-        app.use(bodyParser.json({
-            extended: true
-        }));
-        app.use(cookieParser());
-        app.use(cookieSession({ 
-            secret: "~46:h.]^H#h5%)HgT0O5{Tfm97hw1Y"
-        }));
-
-        // Express based application, we'll reroute the passport middlewares in place
-        app.use(passport.initialize());
-        app.use(passport.session());
+        setupPassport(app);
+        setupMiddlewaresRelatingToPassport(app);
+        setupRoutes(app);
     }
 };
 
