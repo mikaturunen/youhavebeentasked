@@ -5,6 +5,7 @@ var cookieParser = require("cookie-parser");
 var bodyParser = require("body-parser");
 var cookieSession = require("cookie-session");
 
+// TODO move away from plain text passwords and move them into the database asap when the testing is done 
 var users = {
     "admin": {
         id: 1,

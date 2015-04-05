@@ -49,7 +49,8 @@
                     method="POST" 
                     handleAs="json"
                     contentType="application/json"
-                    on-core-complete="{{loginResult}}"></core-ajax>
+                    on-core-error="{{loginError}}"
+                    on-core-response="{{loginResult}}"></core-ajax>
 
                 <!-- The actual login dialog for the system -->
                 <paper-dialog heading="Login" backdrop="true" id="Login">
@@ -188,6 +189,12 @@
             };
             template.closeLoginDialog = function() {
                 this.$.Login.close();
+            };
+            template.loginError = function(event) {
+                console.log("error", event);
+            };
+            template.loginResult = function(event) {
+                console.log("result", event);
             };
 
         </script>
