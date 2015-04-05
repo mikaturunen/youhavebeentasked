@@ -29,6 +29,7 @@ Polymer("login-icon", {
     /** Opens Login dialog */
     openLoginDialog: function() {
         this.$.Login.open();
+        this.$.Username.focus();
     },
     
     /** Closes Login dialog */
@@ -46,5 +47,9 @@ Polymer("login-icon", {
         console.log("Success logging in the user.");
         var loginDetails = JSON.parse(event.detail.xhr.response);
         console.log(loginDetails);
+
+        // Reset values, close dialog
+        this.$.Login.close();
+        this.$.Password.value = this.$.Username.value = "";
     }
 });
