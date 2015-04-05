@@ -29,11 +29,15 @@ function tryFindingUser(user, isPassportCall, done) {
     //      we can safely swap in a proper authentication
 
     if (users[user.username] === undefined || (!isPassportCall && users[user.username].password !== user.password) ) {
-            return done(null, false, { message: "Incorrect username or password" });
-        }
+        return done(null, false, { message: "Incorrect username or password" });
     }
 
-    return done(null, users[user.username]);
+    var user = {
+        id: users[user.username].id,
+        username: users[user.username].username,
+    };
+
+    return done(null, user);
 }
 
 /**
@@ -42,10 +46,14 @@ function tryFindingUser(user, isPassportCall, done) {
  */
 function getConfiguration() {
     return new localStrategy(function(username, password, done) {
-        return tryFindingUser({
+        return tryFindingUser(
+            {
                 username: username,
                 password: password
-            }, false, done);
+            }, 
+            false, 
+            done
+        );
     });
 }
 
@@ -55,6 +63,7 @@ function getConfiguration() {
  * @param  {Function} done Middleware verification callback for Express and Passport combination
  */
 function userSerialization(user, done) {
+    console.log("Serializing user into passport");
     delete user.password;
     done(null, user);
 }
@@ -65,6 +74,7 @@ function userSerialization(user, done) {
  * @param  {Function} done Middleware verification callback for Express and Passport combination
  */
 function userDeSerialization(user, done) {
+    console.log("Deserializing user for passport");
     tryFindingUser(user, true, done);
 }
 
