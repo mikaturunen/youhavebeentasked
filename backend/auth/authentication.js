@@ -116,7 +116,6 @@ function setupMiddlewaresRelatingToPassport(app) {
 function setupRoutes(app) {
     app.post("/api/login", function(req, res) {
         console.log("/api/login called - user attempting to login.");
-        console.log(req.body);
 
         tryFindingUser(req.body.user, false, function(error, user, message) {
             // NOTE tryFindingUser is not wrapped in Promise as the callback is passport specific callback,
