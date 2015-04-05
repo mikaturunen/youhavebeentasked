@@ -18,15 +18,19 @@ var users = {
  * Tries finding the user with given User details.
  * @param  {{ username: string; password: string; }} user User object to try and find.
  * @param  {Function} done Done function from passport middleware.
+ * @param  {boolean} isPassportCall When true, the call to tryFindingUser was made by passport and does not contain password. 
+ * User is logged in and only requires to be checked if the user can be found with the username. Otherwise normal call
+ * from frontend and requires password checking.
  * @return {Object} Returned as instructed in Passport configuration guide. 
  */
-function tryFindingUser(user, done) {
+function tryFindingUser(user, isPassportCall, done) {
     // TODO we are NOT going to use plain text passwords or other idiotic details like this - this is just for 
     //      quick testing that we know passport + local strategy are configured correctly and after that 
     //      we can safely swap in a proper authentication
 
-    if (users[user.username] === undefined || users[user.username].password !== user.password) {
-        return done(null, false, { message: "Incorrect username or password" });
+    if (users[user.username] === undefined || (!isPassportCall && users[user.username].password !== user.password) ) {
+            return done(null, false, { message: "Incorrect username or password" });
+        }
     }
 
     return done(null, users[user.username]);
@@ -41,7 +45,7 @@ function getConfiguration() {
         return tryFindingUser({
                 username: username,
                 password: password
-            }, done);
+            }, false, done);
     });
 }
 
@@ -60,7 +64,7 @@ function userSerialization(user, done) {
  * @param  {Function} done Middleware verification callback for Express and Passport combination
  */
 function userDeSerialization(user, done) {
-    tryFindingUser(user, done);
+    tryFindingUser(user, true, done);
 }
 
 /**
@@ -103,7 +107,7 @@ function setupRoutes(app) {
         console.log("/api/login called - user attempting to login.");
         console.log(req.body);
 
-        tryFindingUser(req.body.user, function(error, user, message) {
+        tryFindingUser(req.body.user, false, function(error, user, message) {
             // NOTE tryFindingUser is not wrapped in Promise as the callback is passport specific callback,
             //      here we are just taking advantage of the existing behavior
             if (error || user === false) {
