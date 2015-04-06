@@ -15,10 +15,8 @@ Polymer("login-icon", {
         // Setting the user information in the POST data
         // NOTE are you kidding me I have to manually stringify it for consumption with node? -argh-.
         var stringifiedLoginDetails = JSON.stringify({ 
-            user: { 
-                username: this.$.Username.value, 
-                password: this.$.Password.value 
-            }
+            username: this.$.Username.value, 
+            password: this.$.Password.value 
         });
 
         this.$.TryLoggingIn.body = stringifiedLoginDetails;
