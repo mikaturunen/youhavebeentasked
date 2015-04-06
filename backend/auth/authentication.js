@@ -111,7 +111,9 @@ function setupMiddlewaresRelatingToPassport(app) {
         }
     }));
 
-    // Express based application, we'll reroute the passport middlewares in place
+    // Express based application, we'll reroute the passport middlewares in place.
+    // Express session has to be configured before Passport initialize and session so that the serialization/deserialization
+    // process happens in correct order.
     app.use(passport.initialize());
     app.use(passport.session());
 }
