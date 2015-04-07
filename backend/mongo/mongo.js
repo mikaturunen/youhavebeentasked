@@ -7,7 +7,7 @@ var config = require("../config/config");
 // TODO read from config + env variables -- now configured to default win mongodb port 
 var configuredUrl = config.buildMongoDatabaseConnectionString();
 /** Database connection to MongoDB */
-var database;
+var connectedDatabase;
 
 var database = {
     /**
@@ -15,6 +15,13 @@ var database = {
      */
     connect: function() {
         var deferred = Q.defer();
+
+        // Reusing the function is allowed - if database is present it assumes everything is working as it should
+        if (connectedDatabase) {
+            console.log("Database connection present.");
+            deferred.resolve(true);
+            return deferred.promise;
+        }
 
         MongoClient.connect(configuredUrl, function(error, mongoDatabase) {
             if (error) {
@@ -24,7 +31,7 @@ var database = {
             }
 
             console.log("Connected to mongodb database.");
-            database = mongoDatabase;
+            connectedDatabase = mongoDatabase;
             deferred.resolve(true);
         });
 
@@ -36,7 +43,30 @@ var database = {
      * returns {Mongodb.Collection} Collection with the specified naem
      */
     collection: function(collection) {
-        return database.collection(collection);
+        return connectedDatabase.collection(collection);
+    },
+
+    query: function(mongoCollection, callback, query) {
+        var deferred = Q.defer();
+        console.log("Querying:", callback, query);
+        
+        mongoCollection[callback](query, function(error, response) {
+            if (error) {
+                console.log("Error 'query':", callback, query, ">>", error);
+                deferred.reject(error);
+                return;
+            }
+
+            deferred.resolve(response);
+        });
+
+        return deferred.promise;
+    },
+
+    close: function() {
+        if (connectedDatabase) {
+            connectedDatabase.close();
+        }
     }
 };
 
