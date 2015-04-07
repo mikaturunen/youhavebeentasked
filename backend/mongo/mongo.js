@@ -1,10 +1,11 @@
 
 var Q = require("q");
-var MongoClient = require("mongodb").MongoClient
+var MongoClient = require("mongodb").MongoClient;
+var config = require("../config/config");
 
 /** @type {string} Urls that's build fron the application configuration and acts as the base configuration. */
 // TODO read from config + env variables -- now configured to default win mongodb port 
-var configuredUrl = "mongodb://localhost:27017";
+var configuredUrl = config.buildMongoDatabaseConnectionString();
 /** Database connection to MongoDB */
 var database;
 
