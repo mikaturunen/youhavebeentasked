@@ -1,5 +1,5 @@
 {
-    "DEVELOPERS_COMMENT": "Please note that not all the properties in the config.json follow same format as environmental variables and thus we can iterate over the object and read either the env variable with the same name or use this config.json value as a backup.",
+    "__DEVELOPERS_COMMENT__": "Please note that not all the properties in the config.json follow same format as environmental variables and thus we can iterate over the object and read either the env variable with the same name or use this config.json value as a backup.",
 
     "DATABASE_URL": "localhost",
     "DATABASE_PORT": "27021",
