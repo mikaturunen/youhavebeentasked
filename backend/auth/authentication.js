@@ -128,7 +128,7 @@ function setupMiddlewaresRelatingToPassport(app) {
 function setupRoutes(app) {
     app.post("/api/login", passport.authenticate("local"), function(req, res) {
         console.log("Everything ok in authentication - returning 200 - OK");
-        res.status(200).end();
+        res.status(200).jsonp({ foo: "bar" });
     });
 }
 

@@ -47,7 +47,7 @@ Polymer("login-icon", {
         console.log(loginDetails);
 
         // Reset values, close dialog
-        this.$.Login.close();
         this.$.Password.value = this.$.Username.value = "";
+        this.$.Login.close();
     }
 });
