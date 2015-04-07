@@ -27,9 +27,8 @@ function tryFindingUser(user, isPassportCall, done) {
     // TODO we are NOT going to use plain text passwords or other idiotic details like this - this is just for 
     //      quick testing that we know passport + local strategy are configured correctly and after that 
     //      we can safely swap in a proper authentication
-    console.log("TEST", user, isPassportCall);
+
     if (users[user.username] === undefined || (!isPassportCall && users[user.username].password !== user.password) ) {
-        console.log("INCORRECT USER OR PW");
         return done(null, false, { message: "Incorrect username or password" });
     }
 
@@ -48,7 +47,6 @@ function tryFindingUser(user, isPassportCall, done) {
  */
 function getConfiguration() {
     return new localStrategy(function(username, password, done) {
-        console.log("local:", username, password);
         return tryFindingUser(
             {
                 username: username,
@@ -66,7 +64,6 @@ function getConfiguration() {
  * @param  {Function} done Middleware verification callback for Express and Passport combination
  */
 function userSerialization(user, done) {
-    console.log("Serializing user into passport:", user);
     done(null, user);
 }
 
@@ -76,7 +73,6 @@ function userSerialization(user, done) {
  * @param  {Function} done Middleware verification callback for Express and Passport combination
  */
 function userDeSerialization(user, done) {
-    console.log("Deserializing user for passport:", user);
     tryFindingUser(user, true, done);
 }
 
