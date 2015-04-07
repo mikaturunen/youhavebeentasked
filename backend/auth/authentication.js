@@ -5,14 +5,11 @@ var cookieParser = require("cookie-parser");
 var bodyParser = require("body-parser");
 var session = require("express-session");
 
-// TODO move away from plain text passwords and move them into the database asap when the testing is done 
-var users = {
-    "admin": {
-        id: 1,
-        username: "admin",
-        password: "test"
-    }
-};
+var config = require("../config/config");
+var mongo = require("../mongo/mongo");
+
+/** MongoDb collection for users. Initialized by module init(). */
+var userCollection;
 
 /**
  * Tries finding the user with given User details.
@@ -28,17 +25,27 @@ function tryFindingUser(user, isPassportCall, done) {
     //      quick testing that we know passport + local strategy are configured correctly and after that 
     //      we can safely swap in a proper authentication
 
-    if (users[user.username] === undefined || (!isPassportCall && users[user.username].password !== user.password) ) {
-        return done(null, false, { message: "Incorrect username or password" });
-    }
+    mongo
+        .query(userCollection, "findOne", { username: user.username })
+        .done(
+            function(resultUser) {
+                // When it's not a call made by passport directly, we need to check password. When passport does the
+                // check on deserialization with just username, we need to let it through properly
+                if (!resultUser || (!isPassportCall && resultUser.password !== user.password)) {
+                    // We also make the assumption that if we didn't find anything with the username and the result = null
+                    // because of this, we still tell it's incorred username or password
+                    return done(null, false, { message: "Incorrect username or password" });
+                }
 
-    var user = {
-        id: users[user.username].id,
-        username: users[user.username].username,
-    };
+                delete resultUser.password;
+                return done(null, resultUser);
+            }, 
+            function(error) {
+                done(error);
+            }
+        );
 
-    console.log("Found user:", user);
-    return done(null, user);
+    // TODO what about the return done() behavior?
 }
 
 /**
@@ -120,6 +127,7 @@ function setupMiddlewaresRelatingToPassport(app) {
  */
 function setupRoutes(app) {
     app.post("/api/login", passport.authenticate("local"), function(req, res) {
+        console.log("Everything ok in authentication - returning 200 - OK");
         res.status(200).end();
     });
 }
@@ -133,6 +141,10 @@ var authentication = {
         setupPassport(app);
         setupMiddlewaresRelatingToPassport(app);
         setupRoutes(app);
+
+        mongo.connect().done(function() {
+            userCollection = mongo.collection(config.DATABASE_COLLECTION_USER);
+        });
     }
 };
 
