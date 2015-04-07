@@ -1,0 +1,12 @@
+{
+    "DEVELOPERS_COMMENT": "Please note that not all the properties in the config.json follow same format as environmental variables and thus we can iterate over the object and read either the env variable with the same name or use this config.json value as a backup.",
+
+    "DATABASE_URL": "localhost",
+    "DATABASE_PORT": "27021",
+    "DATABASE_SUFFIX": "",
+    "DATABAASE_USER": "",
+    "DATABAASE_PASSWORD": "",
+
+    "DATABASE_COLLECTION_USER": "users",
+    "DATABASE_COLLECTION_GROUP": "groups"
+}
