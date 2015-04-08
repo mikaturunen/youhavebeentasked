@@ -10,6 +10,7 @@
         passwordHash: string;
     }
 
+
 ## Party
 
     {
@@ -21,12 +22,14 @@
         partyLeaderId: string;
     }
 
+
 ## Task
+
     {
         _id: string;
         title: string;
         description: string;
         locationLatitude: string;
         locationLongitude: string;
-        
+
     }
