@@ -4,11 +4,13 @@ var localStrategy = require("passport-local").Strategy;
 var cookieParser = require("cookie-parser");
 var bodyParser = require("body-parser");
 var session = require("express-session");
+var bcrypt = require("bcryptjs");
 
 var config = require("../config/config");
 var mongo = require("../mongo/mongo");
 
 /** MongoDb collection for users. Initialized by module init(). */
+var salt = bcrypt.genSaltSync(16);
 var userCollection;
 
 /**
@@ -31,14 +33,29 @@ function tryFindingUser(user, isPassportCall, done) {
             function(resultUser) {
                 // When it's not a call made by passport directly, we need to check password. When passport does the
                 // check on deserialization with just username, we need to let it through properly
-                if (!resultUser || (!isPassportCall && resultUser.password !== user.password)) {
-                    // We also make the assumption that if we didn't find anything with the username and the result = null
-                    // because of this, we still tell it's incorred username or password
+                if (!resultUser) {
                     return done(null, false, { message: "Incorrect username or password" });
                 }
 
-                delete resultUser.password;
-                return done(null, resultUser);
+                if (!isPassportCall) {
+                    // Called by user invoking it -- check hash
+                    bcrypt.compare(user.password, resultUser.passwordHash, function(error, isMatch) {
+                        if (error) {
+                            return done(error);
+                        }
+
+                        if (isMatch) {
+                            delete resultUser.passwordHash;
+                            return done(null, resultUser);
+                        } else {
+                            return done(null, false, { message: "Incorrect username or password" });
+                        }
+                    });
+                } else {
+                    // Called by passport middleware, allow through with no hash 
+                    delete resultUser.passwordHash;
+                    return done(null, resultUser);
+                }
             }, 
             function(error) {
                 done(error);
