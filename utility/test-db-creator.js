@@ -13,9 +13,9 @@ mongo
         mongo
             .query(collection, "insert", {
                 username: "Admin",
-                // TODO next phase: bcrypt password, initially plain text for testing purposes - I know, stupid but we are 
-                //      testing and not going to production so deal with it
-                password: "test"
+                // Plain text test passsword is: admintest
+                // It is completely ok for us to reveal this as this is only for local testing and nothing else. 
+                passwordHash: "$2a$10$VSLtI7RQgjpLKEFTdIbcnOd54y5nTilsFx6obMn9n2nBJekFpeuM2"
             })
             .then(function() { 
                 return mongo.query(collection, "findOne", { username: "Admin" }); 
