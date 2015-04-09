@@ -12,6 +12,7 @@
 
     {
         _id: string;
+        name: string;
         memberIds: string[];
         organizerIds: string[];        
     }
