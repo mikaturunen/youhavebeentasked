@@ -46,6 +46,24 @@ var database = {
         return connectedDatabase.collection(collection);
     },
 
+    find: function(mongoCollection, query) {
+        var deferred = Q.defer();
+
+        mongoCollection
+            .find(query)
+            .toArray(function(error, documents) {
+                if (error) {
+                    console.log("Error in find documents for collection:", error);
+                    deferred.reject(error);
+                    return;
+                }
+
+                deferred.resolve(documents);
+            });
+
+        return deferred.promise;
+    },
+
     query: function(mongoCollection, callback, query) {
         var deferred = Q.defer();
         console.log("Querying:", callback, query);
