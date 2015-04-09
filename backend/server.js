@@ -5,22 +5,23 @@ var tasks = require("./REST/tasks");
 var authentication = require("./auth/authentication");
 var mongo = require("./mongo/mongo");
 
-// TODO update front target
-app.use("/public", express.static(path.join(__dirname, "..", "/frontend")));
-
-authentication.init(app);
-// Initialize all REST routes
-tasks.init(app);
-
-// Rest of the pages get index.html and 404 will be handled on the front 
-var indexLocation = path.join(__dirname, "..", "/frontend/index.html");
-app.get("*", function (req, res) {
-    res.sendFile(indexLocation);
-});
-
+// Making sure we have a proper database connection in place
 mongo
     .connect()
     .done(function() {
+        // TODO update front target
+        app.use("/public", express.static(path.join(__dirname, "..", "/frontend")));
+
+        authentication.init(app);
+        // Initialize all REST routes
+        tasks.init(app);
+
+        // Rest of the pages get index.html and 404 will be handled on the front 
+        var indexLocation = path.join(__dirname, "..", "/frontend/index.html");
+        app.get("*", function (req, res) {
+            res.sendFile(indexLocation);
+        });
+
         // Start the server
         var server = app.listen(3000, function () {
             var host = server.address().address;
