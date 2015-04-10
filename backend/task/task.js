@@ -43,7 +43,7 @@ var task = {
         var deferred = Q.defer();
         // TODO take team organizer into account too if required!
 
-        mongo.query(team.collection(), {
+        mongo.find(team.collection(), {
                 members: { $in: [ new ObjectId(userId) ] }
             })
             .then(function(teams) { 

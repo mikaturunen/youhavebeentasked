@@ -10,10 +10,12 @@ function getTaskList(req, res) {
         .getAllForUser(req.user._id)
         .done(
             function(tasks) {
+                console.log("tasks:", tasks);
                 res.json(tasks);
             },
             function(error) {
-                // tODO error
+                // TODO create real error objects for front to show to the world!
+                res.status(500).jsonp({ foo: "bar" });
             }
         );   
 }
@@ -31,7 +33,8 @@ function newTask(req, res) {
                 res.json(task);
             },
             function(error) {
-                // TODO error
+                // TODO create real error objects for front to show to the world!
+                res.status(500).jsonp({ foo: "bar" });
             }
         );
 }
@@ -48,8 +51,8 @@ var taskRoutes = {
     init: function(app) {
         var prefix = "/api"; 
 
-        app.get(prefix + "/tasks", auth.authenticate, getTaskList);
-        app.post(prefix + "/tasks/new", auth.authenticate, newTask);
+        app.get(prefix + "/tasks", getTaskList);
+        app.post(prefix + "/tasks/new", newTask);
     }
 };
 

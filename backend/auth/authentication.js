@@ -164,7 +164,9 @@ function setupRoutes(app) {
  * @module Authenticaton
  */
 var authentication = {
-    authenticate: passport.authenticate("local"),
+    authenticateRoute: function() {
+        return passport.authenticate("local");
+    },
 
     init: function(app) {
         setupPassport(app);
