@@ -8,61 +8,71 @@ var bcrypt = require("bcryptjs");
 
 var config = require("../config/config");
 var mongo = require("../mongo/mongo");
+var user = require("../user/user");
 
 /** MongoDb collection for users. Initialized by module init(). */
 var salt = bcrypt.genSaltSync(16);
 var userCollection;
 
 /**
+ * Handles the passport specific done behavior to resolve into proper Passport state.
+ * @param  {User} user Front provided User
+ * @param  {User} resultUser Database provided User
+ * @param  {boolean} isPassportCall When true, the call to tryFindingUser was made by passport and does not contain password. 
+ * @param  {Function} done Callback for Passport.
+ * @return {any} Done result.
+ */
+function passportHandleUser(user, resultUser, isPassportCall, done) {
+    // When it's not a call made by passport directly, we need to check password. When passport does the
+    // check on deserialization with just username, we need to let it through properly
+    if (!resultUser) {
+        return done(null, false, { message: "Incorrect username or password" });
+    }
+
+    if (!isPassportCall) {
+        // Called by user invoking it -- check hash
+        bcrypt.compare(user.password, resultUser.passwordHash, function(error, isMatch) {
+            if (error) {
+                return done(error);
+            }
+
+            if (isMatch) {
+                delete resultUser.passwordHash;
+                return done(null, resultUser);
+            } else {
+                return done(null, false, { message: "Incorrect username or password" });
+            }
+        });
+    } else {
+        // Called by passport middleware, allow through with no hash 
+        delete resultUser.passwordHash;
+        return done(null, resultUser);
+    }
+}
+
+/**
  * Tries finding the user with given User details.
- * @param  {{ username: string; password: string; }} user User object to try and find.
+ * @param  {{ username: string; password: string; }} userDocument User object to try and find.
  * @param  {Function} done Done function from passport middleware.
  * @param  {boolean} isPassportCall When true, the call to tryFindingUser was made by passport and does not contain password. 
  * User is logged in and only requires to be checked if the user can be found with the username. Otherwise normal call
  * from frontend and requires password checking.
  * @return {Object} Returned as instructed in Passport configuration guide. 
  */
-function tryFindingUser(user, isPassportCall, done) {
+function tryFindingUser(userDocument, isPassportCall, done) {
     // TODO we are NOT going to use plain text passwords or other idiotic details like this - this is just for 
     //      quick testing that we know passport + local strategy are configured correctly and after that 
     //      we can safely swap in a proper authentication
 
-    mongo
-        .query(userCollection, "findOne", { username: user.username })
+    user.getByUsername(userDocument.username)
         .done(
             function(resultUser) {
-                // When it's not a call made by passport directly, we need to check password. When passport does the
-                // check on deserialization with just username, we need to let it through properly
-                if (!resultUser) {
-                    return done(null, false, { message: "Incorrect username or password" });
-                }
-
-                if (!isPassportCall) {
-                    // Called by user invoking it -- check hash
-                    bcrypt.compare(user.password, resultUser.passwordHash, function(error, isMatch) {
-                        if (error) {
-                            return done(error);
-                        }
-
-                        if (isMatch) {
-                            delete resultUser.passwordHash;
-                            return done(null, resultUser);
-                        } else {
-                            return done(null, false, { message: "Incorrect username or password" });
-                        }
-                    });
-                } else {
-                    // Called by passport middleware, allow through with no hash 
-                    delete resultUser.passwordHash;
-                    return done(null, resultUser);
-                }
+                passportHandleUser(userDocument, resultUser, isPassportCall, done);
             }, 
             function(error) {
                 done(error);
             }
         );
-
-    // TODO what about the return done() behavior?
 }
 
 /**
@@ -154,15 +164,13 @@ function setupRoutes(app) {
  * @module Authenticaton
  */
 var authentication = {
+    authenticate: passport.authenticate("local"),
+
     init: function(app) {
         setupPassport(app);
         setupMiddlewaresRelatingToPassport(app);
         setupRoutes(app);
-
-        mongo.connect().done(function() {
-            userCollection = mongo.collection(config.DATABASE_COLLECTION_USER);
-        });
-    }
+    },
 };
 
 module.exports = authentication;
