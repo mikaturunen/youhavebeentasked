@@ -5,6 +5,11 @@ var task = require("../task/task");
 var auth = require("../auth/authentication");
 
 function getTaskList(req, res) {
+    if (!req.user) {
+        res.status(401).jsonp({ message: "Unauthorized" });
+        return;
+    }
+
     console.log("Getting tasks for user:", req.user.username);
     task
         .getAllForUser(req.user._id)
@@ -22,8 +27,9 @@ function getTaskList(req, res) {
 
 /** Simply creates a new dummy task. */
 function newTask(req, res) {
-    if (req.body.task) {
-        console.log("no task present", req.body);
+    if (!req.user) {
+        res.status(401).jsonp({ message: "Unauthorized" });
+        return;
     }
 
     task
