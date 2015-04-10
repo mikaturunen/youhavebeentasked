@@ -164,6 +164,15 @@ function setupRoutes(app) {
  * @module Authenticaton
  */
 var authentication = {
+    authenticate: function(req, res, callback) {
+        if (!req.user) {
+            res.status(401).jsonp({ message: "Unauthorized" });
+            return;
+        }
+
+        callback(req, res);
+    },
+
     init: function(app) {
         setupPassport(app);
         setupMiddlewaresRelatingToPassport(app);
