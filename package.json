@@ -32,5 +32,12 @@
     "passport": "^0.2.1",
     "passport-local": "^1.0.0",
     "q": "^1.2.0"
+  },
+  "devDependencies": {
+    "broccoli": "^0.15.3",
+    "broccoli-merge-trees": "^0.2.1",
+    "broccoli-typescript": "^0.4.0",
+    "rimraf": "^2.3.2",
+    "tslint": "^2.1.1"
   }
 }
