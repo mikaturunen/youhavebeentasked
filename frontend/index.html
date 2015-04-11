@@ -11,142 +11,14 @@
         <meta name="description" content="You have been tasked!">
         <meta name="author" content="Mika Turunen <mika.turunen@ymail.com>">
 
-        <link href="http://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
-        <link rel="stylesheet" type="text/css" href="/public/css/styles.css">
-
         <!-- Loading platform support before any code starts touching the DOM -->
         <script src="/public/bower/webcomponentsjs/webcomponents.min.js"></script>
         <link rel="import" href="/public/bower/polymer/polymer.html">
 
-        <!-- Core elements -->
-        <link rel="import" href="/public/bower/core-animated-pages/core-animated-pages.html">
-        <link rel="import" href="/public/bower/core-animated-pages/transitions/slide-from-right.html">
-        <link rel="import" href="/public/bower/core-scaffold/core-scaffold.html">
-        <link rel="import" href="/public/bower/core-icon-button/core-icon-button.html">
-        <link rel="import" href="/public/bower/core-icon/core-icon.html">
-        <link rel="import" href="/public/bower/core-menu/core-menu.html">
-        <link rel="import" href="/public/bower/core-toolbar/core-toolbar.html">
-        <link rel="import" href="/public/bower/core-ajax/core-ajax.html">
-        <link rel="import" href="/public/bower/app-states/app-states.html">
-
-        <!-- Paper elements -->
-        <link rel="import" href="/public/bower/paper-button/paper-button.html">
-        <link rel="import" href="/public/bower/paper-item/paper-item.html">
-        <link rel="import" href="/public/bower/paper-input/paper-input.html">
-
-        <!-- YHBT elements -->
-        <link rel="import" href="/public/elements/auth/auth.html">
-        <link rel="import" href="/public/elements/task-list/task-list.html">
-        <link rel="import" href="/public/elements/login-icon/login-icon.html">
+        <link rel="import" href="/public/elements/application.html">
     </head>
 
     <body unresolved fullbleed>
-        <template is="auto-binding">
-
-                <core-scaffold id="scaffold">
-                    <!-- Navigation -->
-                    <nav>
-                        <core-toolbar tool>
-                            <span>Menu</span>
-                        </core-toolbar>
-
-                        <core-menu on-core-select="{{menuItemSelected}}">
-                            <paper-item>
-                                <core-icon icon="label-outline"></core-icon>
-                                <a href="#/today">Today</a>
-                            </paper-item>
-
-                            <paper-item>
-                                <core-icon icon="label-outline"></core-icon>
-                                <a href="#/tasks">Tasks</a>
-                            </paper-item>
-
-                            <paper-item>
-                                <core-icon icon="label-outline"></core-icon>
-                                <a href="#/parties">Party Management</a>
-                            </paper-item>
-
-                            <paper-item>
-                                <core-icon icon="label-outline"></core-icon>
-                                <a href="#/personal">Personal</a>
-                            </paper-item>
-                        </core-menu>
-                    </nav>
-                   
-                    <core-toolbar tool flex>
-                        <div flex>You've been tasked!</div>
-                        <!-- TODO logout + other behavior potentially accessible from the toolbar -->
-                        <!-- <core-icon-button icon="refresh"></core-icon-button>-->
-                        <login-icon icon="account-box" authenticated="{{isAuthenticated}}"></login-icon>
-                    </core-toolbar>
-
-                    <!-- Content -->
-                    <div layout horizontal center-center fit>
-                        <!-- Filled with pages -->
-                        <section id="page" is="states-section"></section>
-
-                        <app-states mode="hash">
-                            <app-state id="home" url="/">
-                                <template target="#page" is="states-template">
-                                </template>
-
-                                <app-state id="today">
-                                    <template target="#page" is="states-template">
-                                        <section>
-                                            
-                                        </section>
-                                    </template>
-                                </app-state>
-
-                                <app-state id="tasks">
-                                    <template target="#page" is="states-template">
-                                        <section layout vertical center-center>
-                                            <yhbt-task-list></yhbt-task-list>
-                                        </section>
-                                    </template>
-                                </app-state>
-
-                                <app-state id="parties">
-                                    <template target="#page" is="states-template">
-                                        parties
-                                    </template>
-                                </app-state>
-
-                                <app-state id="stats">
-                                    <template target="#page" is="states-template">
-                                        stats
-                                    </template>
-                                </app-state>
-
-                                <app-state id="personal">
-                                    <template target="#page" is="states-template">
-                                        personal
-                                    </template>
-                                </app-state>
-
-                                <app-state id="task">
-                                    <app-state urlPostfix=":taskId" bindUrlParams>
-                                        <template target="#page" is="states-template">
-                                            
-                                        </template>
-                                    </app-state>
-                                </app-state>
-                            </app-state>
-                        </app-states>
-                    </div>
-                </core-scaffold>
-           
-        </template>
-        <script>
-            var template = document.querySelector("template[is=\"auto-binding\"]"); 
-
-            template.menuItemSelected = function(event, detail, sender) {
-                if (detail.isSelected && this.$) {
-                    this.async(function() {
-                        this.$.scaffold.closeDrawer();
-                    });
-                } 
-            };
-        </script>
+        <yhbt-app></yhbt-app>
     </body>
 </html>
