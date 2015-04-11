@@ -7,12 +7,6 @@ Polymer("login-icon", {
     icon: "account-box",
 
     /**
-     * Default status for authentication - we are not authenticated by default - has to be confirmed by the server
-     * @type {boolean}
-     */
-    authenticated: false,
-
-    /**
      * Tries to login the user by reading the login credentials from the dialog inputs.
      * Called when the user clicks "ok" on the Login dialog.
      */
@@ -41,19 +35,6 @@ Polymer("login-icon", {
         this.$.Login.close();
     },
 
-    /** Called on error from the login status check */
-    onLoginStatusError: function(event) {
-        this.authenticated = false;
-    },
-
-    /** Called on success from the login status check */
-    onLoginStatusSuccess: function(event) {
-        console.log("Success checking login status of the user.");
-        var loginDetails = JSON.parse(event.detail.xhr.response);
-        console.log("Login status:", loginDetails);
-        this.authenticated = loginDetails;
-    },
-
     /** Called on error when the user attempts to login */
     onLoginError: function(event) {
         console.log("Error logging in the user.", event.detail.xhr.response);
@@ -64,6 +45,7 @@ Polymer("login-icon", {
         console.log("Success logging in the user.");
         var loginDetails = JSON.parse(event.detail.xhr.response);
         console.log(loginDetails);
+        this.fire("authenticated", true);
 
         // Reset values, close dialog
         this.$.Password.value = this.$.Username.value = "";
