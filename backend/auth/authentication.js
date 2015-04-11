@@ -26,13 +26,17 @@ function passportHandleUser(user, resultUser, isPassportCall, done) {
     // When it's not a call made by passport directly, we need to check password. When passport does the
     // check on deserialization with just username, we need to let it through properly
     if (!resultUser) {
+        console.log("No user for handling authentication present.");
         return done(null, false, { message: "Incorrect username or password" });
     }
+
+    console.log("Handling passport auth: ", user, resultUser, isPassportCall);
 
     if (!isPassportCall) {
         // Called by user invoking it -- check hash
         bcrypt.compare(user.password, resultUser.passwordHash, function(error, isMatch) {
             if (error) {
+                console.log("Error in bcrypt compare.", error);
                 return done(error);
             }
 
@@ -60,10 +64,6 @@ function passportHandleUser(user, resultUser, isPassportCall, done) {
  * @return {Object} Returned as instructed in Passport configuration guide. 
  */
 function tryFindingUser(userDocument, isPassportCall, done) {
-    // TODO we are NOT going to use plain text passwords or other idiotic details like this - this is just for 
-    //      quick testing that we know passport + local strategy are configured correctly and after that 
-    //      we can safely swap in a proper authentication
-
     user.getByUsername(userDocument.username)
         .done(
             function(resultUser) {
@@ -148,11 +148,33 @@ function setupMiddlewaresRelatingToPassport(app) {
     app.use(passport.session());
 }
 
+var callCounter = 0;
 /**
  * Setups authentication and authorization related routes in place for the user.
  * @param  {Express.Application} app Express application
  */
 function setupRoutes(app) {
+    app.get("/api/login", function(req, res) {
+        callCounter += 1;
+
+        if (req.user) {
+            console.log("REQUEST in /api/login:", req.user);
+            tryFindingUser(req.user, true, function(error, user, message) {
+                if (error || user === false) {
+                    console.log("User not logged in -- error:", error, user, message, callCounter);
+                    res.status(401).jsonp({ message: "Unauthorized" });
+                    return;
+                }
+
+                console.log("User login status checked - logged in - rockin'!", callCounter);
+                res.status(200).jsonp({ message: "ok" });
+            });
+        } else {
+            console.log("User not logged in -- no user.", callCounter);
+            res.status(401).jsonp({ message: "Unauthorized" });
+        }
+    });
+
     app.post("/api/login", passport.authenticate("local"), function(req, res) {
         console.log("Everything ok in authentication - returning 200 - OK");
         res.status(200).jsonp({ foo: "bar" });
