@@ -2,6 +2,10 @@ html /deep/ paper-item a {
   color: white;
 }
 
+html /deep/ core-menu {
+  margin: 0px;
+}
+
 body {
   font-family: 'Roboto', sans-serif;
   font-weight: 300;
