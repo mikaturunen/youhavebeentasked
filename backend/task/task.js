@@ -44,7 +44,7 @@ var task = {
         // TODO take team organizer into account too if required!
 
         mongo.find(team.collection(), {
-                members: { $in: [ new ObjectId(userId) ] }
+                memberIds: { $in: [ new ObjectId(userId) ] }
             })
             .then(function(teams) { 
                 return mongo.find(task.collection(), {
