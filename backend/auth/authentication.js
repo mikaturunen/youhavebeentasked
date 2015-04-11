@@ -30,8 +30,6 @@ function passportHandleUser(user, resultUser, isPassportCall, done) {
         return done(null, false, { message: "Incorrect username or password" });
     }
 
-    console.log("Handling passport auth: ", user, resultUser, isPassportCall);
-
     if (!isPassportCall) {
         // Called by user invoking it -- check hash
         bcrypt.compare(user.password, resultUser.passwordHash, function(error, isMatch) {
@@ -158,19 +156,15 @@ function setupRoutes(app) {
         callCounter += 1;
 
         if (req.user) {
-            console.log("REQUEST in /api/login:", req.user);
             tryFindingUser(req.user, true, function(error, user, message) {
                 if (error || user === false) {
-                    console.log("User not logged in -- error:", error, user, message, callCounter);
                     res.status(401).jsonp({ message: "Unauthorized" });
                     return;
                 }
 
-                console.log("User login status checked - logged in - rockin'!", callCounter);
                 res.status(200).jsonp({ message: "ok" });
             });
         } else {
-            console.log("User not logged in -- no user.", callCounter);
             res.status(401).jsonp({ message: "Unauthorized" });
         }
     });
