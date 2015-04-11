@@ -8,7 +8,7 @@
     <template>
         <div>         
             <!-- Used to fetch all the tasks -->
-            <core-ajax url="/api/tasks" auto handleAs="json" loading="{{isLoadingContent}}" response="{{tasks}}"></core-ajax>
+            <core-ajax url="/api/tasks" handleAs="json" loading="{{isLoadingContent}}" response="{{tasks}}"></core-ajax>
             <!-- Creates new tasks with -->
             <core-ajax id="createTask" url="/api/tasks/new" method="POST" handleAs="json" on-core-complete="{{addTask}}"></core-ajax>
 

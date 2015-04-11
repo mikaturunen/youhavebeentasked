@@ -1,5 +1,5 @@
 
-Polymer({
+Polymer("yhbt-task-list", {
     /** @type {boolean} Is loading content by default, display spinner */
     isLoadingContent: true,
 

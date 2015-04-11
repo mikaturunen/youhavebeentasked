@@ -10,8 +10,15 @@
 <link rel="import" href="/public/bower/paper-button/paper-button.html">
 
 
-<polymer-element name="login-icon" attributes="icon">
+<polymer-element name="login-icon" attributes="icon authenticated">
     <template>
+        <!-- Once the component loads, it automatically tries to login the user -->
+        <core-ajax 
+            auto
+            url="/api/login" 
+            on-core-error="{{onLoginStatusError}}" 
+            on-core-response="{{onLoginStatusSuccess}}"></core-ajax>
+
         <!-- AJAX message for logging in the user, or trying to. -->
         <core-ajax 
             id="TryLoggingIn" 

@@ -2,9 +2,15 @@
 Polymer("login-icon", {
     /**
      * Default icon for login-icon is account-box, can be changed through attribute 'icon='
-     * @type {String}
+     * @type {string}
      */
     icon: "account-box",
+
+    /**
+     * Default status for authentication - we are not authenticated by default - has to be confirmed by the server
+     * @type {boolean}
+     */
+    authenticated: false,
 
     /**
      * Tries to login the user by reading the login credentials from the dialog inputs.
@@ -33,6 +39,19 @@ Polymer("login-icon", {
     /** Closes Login dialog */
     closeLoginDialog: function() {
         this.$.Login.close();
+    },
+
+    /** Called on error from the login status check */
+    onLoginStatusError: function(event) {
+        this.authenticated = false;
+    },
+
+    /** Called on success from the login status check */
+    onLoginStatusSuccess: function(event) {
+        console.log("Success checking login status of the user.");
+        var loginDetails = JSON.parse(event.detail.xhr.response);
+        console.log("Login status:", loginDetails);
+        this.authenticated = loginDetails;
     },
 
     /** Called on error when the user attempts to login */
