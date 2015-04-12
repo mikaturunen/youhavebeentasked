@@ -4,7 +4,8 @@ Polymer("login-icon", {
      * Default icon for login-icon is account-box, can be changed through attribute 'icon='
      * @type {string}
      */
-    icon: "account-box",
+    loginIcon: "account-box",
+    logoutIcon: "settings-power",
 
     /**
      * Tries to login the user by reading the login credentials from the dialog inputs.

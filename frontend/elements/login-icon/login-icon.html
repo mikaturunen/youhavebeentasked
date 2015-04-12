@@ -10,7 +10,7 @@
 <link rel="import" href="/public/bower/paper-button/paper-button.html">
 
 
-<polymer-element name="login-icon" attributes="icon authed">
+<polymer-element name="login-icon" attributes="loginIcon logoutIcon authed">
     <template>
         <!-- AJAX message for logging in the user, or trying to. -->
         <core-ajax 
@@ -50,10 +50,10 @@
 
 
         <template if="{{!authed}}">
-            <core-icon-button on-click="{{openLoginDialog}}" icon="{{icon}}"></core-icon-button>
+            <core-icon-button on-click="{{openLoginDialog}}" icon="{{loginIcon}}"></core-icon-button>
         </template>
         <template if="{{authed}}">
-            <core-icon-button on-click="{{openLogOutDialog}}" icon="{{icon}}"></core-icon-button>
+            <core-icon-button on-click="{{openLogOutDialog}}" icon="{{logoutIcon}}"></core-icon-button>
         </template>
 
     </template>
