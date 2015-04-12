@@ -40,7 +40,8 @@ var database = {
 
     /**
      * Gets a specified collection from MongoDB
-     * returns {Mongodb.Collection} Collection with the specified naem
+     * @param {string} collection Collection to get from Mongo database
+     * @returns {Mongodb.Collection} Collection with the specified naem
      */
     collection: function(collection) {
         return connectedDatabase.collection(collection);
