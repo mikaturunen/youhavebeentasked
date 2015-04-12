@@ -26,100 +26,121 @@
     <template>
         <yhbt-auth on-authenticated="{{updateAuthenticationStatus}}"></yhbt-auth>
 
-        <core-scaffold id="scaffold">
-            <!-- Navigation -->
-            <nav>
-                <core-toolbar tool>
-                    <span>Menu</span>
+        <template if="{{!isAuthenticated}}">
+            <!-- Not logged in -->
+                <core-toolbar tool flex>
+                    <div flex>You've been tasked!</div>
+                    <!-- TODO logout + other behavior potentially accessible from the toolbar -->
+                    <!-- <core-icon-button icon="refresh"></core-icon-button>-->
+                    <login-icon 
+                        icon="account-box" 
+                        on-authenticated="{{updateAuthenticationStatus}}" 
+                        authed="{{isAuthenticated}}"></login-icon>
+                </core-toolbar>
+        </template>
+        <template if="{{isAuthenticated}}">
+            <!-- Logged in -->
+            <core-scaffold id="scaffold">
+                <!-- Navigation -->
+                <nav>
+                    <core-toolbar tool>
+                        <span>Menu</span>
+                    </core-toolbar>
+
+        
+                    <core-menu>
+                        <paper-item>
+                            <core-icon icon="label-outline"></core-icon>
+                            <a href="#/today">Today</a>
+                        </paper-item>
+
+                        <paper-item>
+                            <core-icon icon="label-outline"></core-icon>
+                            <a href="#/tasks">Tasks</a>
+                        </paper-item>
+
+                        <paper-item>
+                            <core-icon icon="label-outline"></core-icon>
+                            <a href="#/parties">Party Management</a>
+                        </paper-item>
+
+                        <paper-item>
+                            <core-icon icon="label-outline"></core-icon>
+                            <a href="#/personal">Personal</a>
+                        </paper-item>
+                    </core-menu>
+                </nav>
+               
+                <core-toolbar tool flex>
+                    <div flex>You've been tasked!</div>
+                    <!-- TODO logout + other behavior potentially accessible from the toolbar -->
+                    <!-- <core-icon-button icon="refresh"></core-icon-button>-->
+                    <login-icon 
+                        icon="account-box" 
+                        on-authenticated="{{updateAuthenticationStatus}}" 
+                        authed="{{isAuthenticated}}"></login-icon>
                 </core-toolbar>
 
-                <core-menu>
-                    <paper-item>
-                        <core-icon icon="label-outline"></core-icon>
-                        <a href="#/today">Today</a>
-                    </paper-item>
+                <!-- Content -->
+                <div layout horizontal center-center fit>
+                    <!-- Filled with pages -->
+                    <section id="page" is="states-section"></section>
 
-                    <paper-item>
-                        <core-icon icon="label-outline"></core-icon>
-                        <a href="#/tasks">Tasks</a>
-                    </paper-item>
-
-                    <paper-item>
-                        <core-icon icon="label-outline"></core-icon>
-                        <a href="#/parties">Party Management</a>
-                    </paper-item>
-
-                    <paper-item>
-                        <core-icon icon="label-outline"></core-icon>
-                        <a href="#/personal">Personal</a>
-                    </paper-item>
-                </core-menu>
-            </nav>
-           
-            <core-toolbar tool flex>
-                <div flex>You've been tasked!</div>
-                <!-- TODO logout + other behavior potentially accessible from the toolbar -->
-                <!-- <core-icon-button icon="refresh"></core-icon-button>-->
-                <login-icon icon="account-box" 
-                    on-authenticated="{{updateAuthenticationStatus}}" 
-                    authed="{{isAuthenticated}}"></login-icon>
-            </core-toolbar>
-
-            <!-- Content -->
-            <div layout horizontal center-center fit>
-                <!-- Filled with pages -->
-                <section id="page" is="states-section"></section>
-
-                <app-states mode="hash">
-                    <app-state id="home" url="/">
-                        <template target="#page" is="states-template">
-                        </template>
-
-                        <app-state id="today">
+                    <app-states mode="hash">
+                        <app-state id="home" url="/">
+                            <!-- Shown when user is logged in -->
                             <template target="#page" is="states-template">
-                                <section>
-                                    
-                                </section>
+                                
                             </template>
-                        </app-state>
 
-                        <app-state id="tasks">
-                            <template target="#page" is="states-template">
-                                <section layout vertical center-center>
-                                    <yhbt-task-list></yhbt-task-list>
-                                </section>
-                            </template>
-                        </app-state>
-
-                        <app-state id="parties">
-                            <template target="#page" is="states-template">
-                                parties
-                            </template>
-                        </app-state>
-
-                        <app-state id="stats">
-                            <template target="#page" is="states-template">
-                                stats
-                            </template>
-                        </app-state>
-
-                        <app-state id="personal">
-                            <template target="#page" is="states-template">
-                                personal
-                            </template>
-                        </app-state>
-
-                        <app-state id="task">
-                            <app-state urlPostfix=":taskId" bindUrlParams>
+                            <app-state id="today">
                                 <template target="#page" is="states-template">
-                                    
+                                    <section>
+                                        
+                                    </section>
                                 </template>
                             </app-state>
+
+                            <app-state id="tasks">
+                                <template target="#page" is="states-template">
+                                    <section layout vertical center-center>
+                                        <yhbt-task-list></yhbt-task-list>
+                                    </section>
+                                </template>
+                            </app-state>
+
+                            <app-state id="parties">
+                                <template target="#page" is="states-template">
+                                    parties
+                                </template>
+                            </app-state>
+
+                            <app-state id="stats">
+                                <template target="#page" is="states-template">
+                                    stats
+                                </template>
+                            </app-state>
+
+                            <app-state id="personal">
+                                <template target="#page" is="states-template">
+                                    personal
+                                </template>
+                            </app-state>
+
+                            <app-state id="task">
+                                <app-state urlPostfix=":taskId" bindUrlParams>
+                                    <template if="{{isAuthenticated}}" target="#page" is="states-template">
+                                        
+                                    </template>
+                                </app-state>
+                            </app-state>
                         </app-state>
-                    </app-state>
-                </app-states>
-            </div>
-        </core-scaffold>
+                    </app-states>
+                </div>
+            </core-scaffold>
+        </template>
+
+        
     </template>
 
    <script src="/public/elements/application.js"></script>
