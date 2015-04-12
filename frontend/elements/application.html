@@ -33,12 +33,11 @@
                     <!-- TODO logout + other behavior potentially accessible from the toolbar -->
                     <!-- <core-icon-button icon="refresh"></core-icon-button>-->
                     <login-icon 
-                        icon="account-box" 
                         on-authenticated="{{updateAuthenticationStatus}}" 
                         authed="{{isAuthenticated}}"></login-icon>
                 </core-toolbar>
         </template>
-        
+
         <template if="{{isAuthenticated}}">
             <!-- Logged in -->
             <core-scaffold id="scaffold">
