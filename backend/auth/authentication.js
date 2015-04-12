@@ -173,6 +173,14 @@ function setupRoutes(app) {
         console.log("Everything ok in authentication - returning 200 - OK");
         res.status(200).jsonp({ foo: "bar" });
     });
+
+    app.get("/api/logout", function(req, res) {
+        if (req.logout !== undefined) {
+            req.logout();
+        }
+        
+        res.redirect("/");
+    });
 }
 
 /**
