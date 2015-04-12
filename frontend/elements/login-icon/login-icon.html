@@ -40,9 +40,22 @@
             </div>
         </paper-dialog>
 
+        <!-- The actual log out dialog for the system -->
+        <paper-dialog heading="Do you wish to log out?" backdrop="true" id="LogOut">
+            <div> 
+                <paper-button dismissive on-click="{{closeLogOutDialog}}" label="Cancel">Cancel</paper-button>
+                <paper-button affirmative default on-click="{{tryLogOut}}" label="Ok">Ok</paper-button>
+            </div>
+        </paper-dialog>
+
+
         <template if="{{!authed}}">
             <core-icon-button on-click="{{openLoginDialog}}" icon="{{icon}}"></core-icon-button>
         </template>
+        <template if="{{authed}}">
+            <core-icon-button on-click="{{openLogOutDialog}}" icon="{{icon}}"></core-icon-button>
+        </template>
+
     </template>
     <script src="/public/elements/login-icon/login-icon.js"></script>
 </polymer-element>

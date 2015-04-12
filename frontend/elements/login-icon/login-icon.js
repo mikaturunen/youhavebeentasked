@@ -23,6 +23,15 @@ Polymer("login-icon", {
         // Attempting to login with the content
         this.$.TryLoggingIn.go();
     },
+
+    /**
+     * Tries to log out the user, redirects on success.
+     * Called when the user clicks "ok" on the log out dialog.
+     */
+    tryLogOut: function() {
+        console.log("Attempting to log out the user.");
+        window.location.href = "/api/logout";
+    },
     
     /** Opens Login dialog */
     openLoginDialog: function() {
@@ -33,6 +42,16 @@ Polymer("login-icon", {
     /** Closes Login dialog */
     closeLoginDialog: function() {
         this.$.Login.close();
+    },
+
+    /** Opens LogOut dialog */
+    openLogOutDialog: function() {
+        this.$.LogOut.open();
+    },
+    
+    /** Closes LogOut dialog */
+    closeLogOutDialog: function() {
+        this.$.LogOut.close();
     },
 
     /** Called on error when the user attempts to login */
