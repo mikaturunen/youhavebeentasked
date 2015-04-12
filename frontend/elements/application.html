@@ -38,6 +38,7 @@
                         authed="{{isAuthenticated}}"></login-icon>
                 </core-toolbar>
         </template>
+        
         <template if="{{isAuthenticated}}">
             <!-- Logged in -->
             <core-scaffold id="scaffold">
@@ -46,7 +47,6 @@
                     <core-toolbar tool>
                         <span>Menu</span>
                     </core-toolbar>
-
         
                     <core-menu>
                         <paper-item>
