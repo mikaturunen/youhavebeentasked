@@ -4,6 +4,11 @@ var config = require("../config/config");
 var task = require("../task/task");
 var auth = require("../auth/authentication");
 
+/** 
+ * Route for getting task lists.
+ * @param {Express.Request} req Request object from Express
+ * @param {Express.Response} res Response object from Express
+ */
 function getTaskList(req, res) {
     console.log("Getting tasks for user:", req.user.username);
     task
@@ -20,7 +25,11 @@ function getTaskList(req, res) {
         );   
 }
 
-/** Simply creates a new dummy task. */
+/** 
+ * Route for creating new tasks.
+ * @param {Express.Request} req Request object from Express
+ * @param {Express.Response} res Response object from Express
+ */
 function newTask(req, res) {
     task
         .insert(req.body.task)
