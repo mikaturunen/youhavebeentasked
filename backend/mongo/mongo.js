@@ -9,6 +9,10 @@ var configuredUrl = config.buildMongoDatabaseConnectionString();
 /** Database connection to MongoDB */
 var connectedDatabase;
 
+/**
+ * Super simple database module that wraps most of the mongodb behavior into a promise and unifies the use cases a bit.
+ * @module Database
+ */
 var database = {
     /**
      * Connects to the MongoDB database.
@@ -47,6 +51,13 @@ var database = {
         return connectedDatabase.collection(collection);
     },
 
+    /**
+     * Short-hand for find.toArray on a specific collection. This should be used over the query('find').done() style
+     * of usage. For other querys the query function can be used
+     * @param  {Mongo.Collection} mongoCollection Specific mongo collection
+     * @param  {any} query Query object for Mongo
+     * @return {Q.Promise<T[]>} Resolves on success into an array of results. Rejects on error with a message
+     */
     find: function(mongoCollection, query) {
         var deferred = Q.defer();
 
@@ -65,6 +76,13 @@ var database = {
         return deferred.promise;
     },
 
+    /**
+     * Query method for a mongo collection
+     * @param  {Mongo.Collection}   mongoCollection Mongo collection
+     * @param  {string} callback Callback to call from the collection
+     * @param  {any} query Query for the callback
+     * @return {Q.Promise<T>} Resolves on success into the result from the query. Rejects on error with the message. 
+     */
     query: function(mongoCollection, callback, query) {
         var deferred = Q.defer();
         console.log("Querying:", callback, query);
@@ -82,6 +100,9 @@ var database = {
         return deferred.promise;
     },
 
+    /**
+     * Closes mongodb connection.
+     */
     close: function() {
         if (connectedDatabase) {
             connectedDatabase.close();
