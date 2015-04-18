@@ -1,0 +1,81 @@
+<link rel="import" href="/public/bower/polymer/polymer.html">
+<link rel="import" href="/public/bower/core-collapse/core-collapse.html">
+<link rel="import" href="/public/bower/core-icon-button/core-icon-button.html">
+
+<polymer-element 
+    name="yhbt-task"
+    attributes="task">
+
+    <style>
+        html /deep/ h3 {
+            font-size: 14px;
+            margin: 0px;
+            font-weight: bold;
+            color: ;
+        }
+        html /deep/ .task {
+            border: 1px solid #bebebe; 
+            padding: 5px; 
+            margin-top: 5px;
+            margin-bottom: 5px;
+            border-radius: 2px; 
+            background-color: #fff; 
+            color: #555;
+        }
+
+    </style>
+
+    <template>
+        <!-- TODO limit the task.title + task.description length if it gets too high, ellipse + cut --> 
+        <div class="task">
+            <div class="task-title">
+                <h3>{{task.title}}</h3>
+            </div>
+            <div class="task-description">
+                <span>{{task.description}}</span>
+            </div>      
+            <div class="task-edit">
+            </div>  
+        </div>
+    </template>
+    
+    <script>
+        Polymer({
+            task: {
+                description: "",
+                title: "",
+                events: [],
+                done: false
+            },
+
+            isTaskStarted: function() {
+                return 
+            },
+
+            /**
+             * Starts the current task
+             */
+            start: function() {
+                var currentDate = Date.now();
+                this.task.events.push({
+                    start: currentDate
+                });
+            },
+            
+            /**
+             * Pauses the current task
+             */
+            pause: function() {
+                this.task.events[this.events.length - 1].end = Date.now();
+            },
+
+            /**
+             * Finishes the current task and marks it as done.
+             */
+            finish: function() {
+                this.task.events[this.events.length - 1].end = Date.now();
+                this.task.done = true;
+            }
+        });
+    </script>
+</polymer-element>
