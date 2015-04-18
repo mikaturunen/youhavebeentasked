@@ -45,7 +45,8 @@ var jadeLocation = [
     "frontend/**/*.jade"
 ];
 
-var tmpLocation = "./tmp";
+var tmpLocation = "./tmp/";
+var releaseLocation = "./release/";
 
 var taskTslintServer = "tslint-server";
 gulp.task(taskTslintServer, function() {
@@ -75,10 +76,17 @@ gulp.task(taskTscServer, function() {
     );
 });
 
+// TODO update compilation steps for client side 
 var taskCopyClient = "copy-client";
 gulp.task(taskCopyClient, function() {
-    return gulp.src("./tmp/frontend/**/*.*")
-        .pipe(copy("./release/"));
+    return gulp.src("./frontend/**/*.*")
+        .pipe(copy(tmpLocation));
+});
+
+var taskCopyToReleaseLocation = "copy";
+gulp.task(taskCopyToReleaseLocation, function() {
+    return gulp.src(tmpLocation + "**/*.*")
+        .pipe(copy(releaseLocation, { prefix: 1 }));
 });
 
 // Set of GULP Tasks that are executed on demand
@@ -90,11 +98,15 @@ gulp.task(taskCopyClient, function() {
 gulp.task("default", function() {
     sequence(
         [ 
-           // taskJade, 
+            // taskJade, 
             taskTslintServer 
         ],
         [ 
-            taskTscServer 
+            taskCopyClient,
+            taskTscServer
+        ],
+        [
+            taskCopyToReleaseLocation
         ]
     );
 });
