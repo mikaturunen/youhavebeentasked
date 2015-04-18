@@ -25,9 +25,6 @@ var RestifiedTaskRoutes;
         app.get(prefix + "/tasks", function (req, res) {
             auth.authenticate(req, res, getTaskList);
         });
-        app.post(prefix + "/tasks/new", function (req, res) {
-            auth.authenticate(req, res, getTaskList);
-        });
     }
     RestifiedTaskRoutes.init = init;
 })(RestifiedTaskRoutes || (RestifiedTaskRoutes = {}));
