@@ -1,6 +1,7 @@
 node_modules/
 frontend/bower
 npm-debug.log
+/tmp
 
 # Temporary ignores until I sort these out into working condition
 Brocfile.js
