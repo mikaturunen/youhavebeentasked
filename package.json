@@ -37,7 +37,22 @@
     "broccoli": "^0.15.3",
     "broccoli-merge-trees": "^0.2.1",
     "broccoli-typescript": "^0.4.0",
+    "browserify": "^9.0.8",
+    "event-stream": "^3.3.0",
+    "gulp": "^3.8.11",
+    "gulp-copy": "0.0.2",
+    "gulp-install": "^0.4.0",
+    "gulp-jade": "^1.0.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-sourcemaps": "^1.5.2",
+    "gulp-tslint": "^2.0.0",
+    "gulp-typescript": "^2.6.0",
+    "gulp-uglify": "^1.2.0",
     "rimraf": "^2.3.2",
-    "tslint": "^2.1.1"
+    "run-sequence": "^1.0.2",
+    "tsify": "^0.8.1",
+    "tslint": "^2.1.1",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0"
   }
 }
