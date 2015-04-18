@@ -105,7 +105,7 @@ function setupRoutes(app) {
         res.redirect("/");
     });
 }
-var authentication = {
+var Authentication = {
     authenticate: function (req, res, callback) {
         if (!req.user) {
             res.status(401).jsonp({ message: "Unauthorized" });
@@ -119,4 +119,4 @@ var authentication = {
         setupRoutes(app);
     },
 };
-module.exports = authentication;
+module.exports = Authentication;
