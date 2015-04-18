@@ -214,7 +214,7 @@ function setupRoutes(app: express.Application) {
  * Authentication module that hides all the strategies and behavior behind it.
  * @module Authenticaton
  */
-var authentication = {
+var Authentication = {
     // TODO type properly
     /**
      * Authenticate user.
@@ -247,4 +247,4 @@ var authentication = {
     },
 };
 
-export = authentication;
+export = Authentication;
