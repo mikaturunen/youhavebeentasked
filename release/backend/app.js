@@ -1,10 +1,10 @@
 var express = require("express");
-var app = express();
 var path = require("path");
 var authentication = require("./auth/authentication");
 var mongo = require("./mongo/mongo");
 var restifiedTaskRoutes = require("./REST/tasks");
 mongo.connect().done(function () {
+    var app = express();
     app.use("/public", express.static(path.join(__dirname, "..", "/frontend")));
     authentication.init(app);
     restifiedTaskRoutes.init(app);

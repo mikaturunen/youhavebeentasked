@@ -13,23 +13,24 @@ Object.keys(configuration).forEach(function (property) {
         config[property] = value;
     }
 });
-config.buildMongoDatabaseConnectionString = function () {
-    var connection = "mongodb://";
-    if (config.DATABASE_USER && config.DATABASE_PASSWORD) {
-        connection += config.DATABASE_USER + ":" + config.DATABASE_PASSWORD + "@";
-    }
-    connection += config.DATABASE_URL + ":" + config.DATABASE_PORT + "/";
-    if (config.DATABASE_SUFFIX) {
-        connection += "/" + config.DATABASE_SUFFIX;
-    }
-    console.log("Connection string:", connection);
-    return connection;
-};
 var ConfigurationContainer;
 (function (ConfigurationContainer) {
     function get() {
         return config;
     }
     ConfigurationContainer.get = get;
+    function buildMongoDatabaseConnectionString() {
+        var connection = "mongodb://";
+        if (config.DATABASE_USER && config.DATABASE_PASSWORD) {
+            connection += config.DATABASE_USER + ":" + config.DATABASE_PASSWORD + "@";
+        }
+        connection += config.DATABASE_URL + ":" + config.DATABASE_PORT + "/";
+        if (config.DATABASE_SUFFIX) {
+            connection += "/" + config.DATABASE_SUFFIX;
+        }
+        console.log("Connection string:", connection);
+        return connection;
+    }
+    ConfigurationContainer.buildMongoDatabaseConnectionString = buildMongoDatabaseConnectionString;
 })(ConfigurationContainer || (ConfigurationContainer = {}));
 module.exports = ConfigurationContainer;
