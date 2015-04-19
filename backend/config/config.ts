@@ -24,30 +24,6 @@ Object.keys(configuration).forEach((property: string) => {
     }
 });
 
-// NOTE I'm fully aware that if someone makes a config.json variable with the same name, it gets overwritten - but that's
-//      just plain silly - let's not even go there - that would mean it wouldn't work with the common process.env.variable
-//      either...
-
-config.buildMongoDatabaseConnectionString = () => {
-    var connection = "mongodb://";
-
-    if (config.DATABASE_USER && config.DATABASE_PASSWORD) {
-        // mongodb://user:password@
-        connection += config.DATABASE_USER + ":" + config.DATABASE_PASSWORD + "@";
-    }
- 
-    // mongodb://user:password@somewhere.com:27012/
-    connection += config.DATABASE_URL + ":" + config.DATABASE_PORT + "/";
-
-    if (config.DATABASE_SUFFIX) {
-        // mongodb://user:password@somewhere.com:27012/application_specific_database
-        connection += "/" + config.DATABASE_SUFFIX;
-    }
-
-    console.log("Connection string:", connection);
-    return connection;
-};
-
 module ConfigurationContainer {
     /**
      * Interface for the environment relates configurations.
@@ -70,8 +46,36 @@ module ConfigurationContainer {
         buildMongoDatabaseConnectionString: () => string;
     }
 
+    /**
+     * Returns the configuration object.
+     * @param {EnvironmentalConfig} configuration file.
+     */
     export function get() {
         return <EnvironmentalConfig> config;
+    }
+
+    /**
+     * Builds the given mongo database connection string.
+     * @returns {string} Complete connection string to mongodb
+     */
+    export function buildMongoDatabaseConnectionString() {
+        var connection = "mongodb://";
+
+        if (config.DATABASE_USER && config.DATABASE_PASSWORD) {
+            // mongodb://user:password@
+            connection += config.DATABASE_USER + ":" + config.DATABASE_PASSWORD + "@";
+        }
+     
+        // mongodb://user:password@somewhere.com:27012/
+        connection += config.DATABASE_URL + ":" + config.DATABASE_PORT + "/";
+
+        if (config.DATABASE_SUFFIX) {
+            // mongodb://user:password@somewhere.com:27012/application_specific_database
+            connection += "/" + config.DATABASE_SUFFIX;
+        }
+
+        console.log("Connection string:", connection);
+        return connection;
     }
 }
 

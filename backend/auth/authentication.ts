@@ -6,9 +6,9 @@ import bodyParser = require("body-parser");
 import session = require("express-session");
 import bcrypt = require("bcryptjs");
 
-var config = require("../config/config");
-var mongo = require("../mongo/mongo");
-var user = require("../user/user");
+import config = require("../config/config");
+import mongo = require("../mongo/mongo");
+import user = require("../user/user");
 
 var localStrategy = passportLocal.Strategy;
 
