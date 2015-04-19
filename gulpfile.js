@@ -72,7 +72,7 @@ gulp.task(taskTscServer, function() {
                             }));
 
     return eventStream.merge(
-        tsServerResult.js.pipe(gulp.dest(tmpLocation))
+        tsServerResult.js.pipe(gulp.dest(path.join(tmpLocation, "/backend")))
     );
 });
 
