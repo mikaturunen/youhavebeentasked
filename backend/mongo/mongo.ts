@@ -1,13 +1,13 @@
 
 import Q = require("q");
 import config = require("../config/config");
-
-var MongoClient = require("mongodb").MongoClient;
+import mongodb = require("mongodb");
 
 /** @type {string} Urls that's build fron the application configuration and acts as the base configuration. */
 var configuredUrl = config.buildMongoDatabaseConnectionString();
 /** Database connection to MongoDB */
-var connectedDatabase;
+var connectedDatabase: any;
+var MongoClient = mongodb.MongoClient;
 
 /**
  * Super simple database module that wraps most of the mongodb behavior into a promise and unifies the use cases a bit.
@@ -28,7 +28,7 @@ module Database {
             return deferred.promise;
         }
 
-        MongoClient.connect(configuredUrl, (error: NodeJS.Error, mongoDatabase: any) => {
+        MongoClient.connect(configuredUrl, (error: Error, mongoDatabase: mongodb.Db) => {
             if (error) {
                 console.log("Error connecting to mongodb:", error);
                 deferred.reject(error);
@@ -46,7 +46,7 @@ module Database {
     /**
      * Gets a specified collection from MongoDB
      * @param {string} collection Collection to get from Mongo database
-     * @returns {Mongodb.Collection} Collection with the specified naem
+     * @returns {mongodb.Collection} Collection with the specified naem
      */
     export function collection(collection: string) {
         return connectedDatabase.collection(collection);
@@ -55,23 +55,23 @@ module Database {
     /**
      * Short-hand for find.toArray on a specific collection. This should be used over the query('find').done() style
      * of usage. For other querys the query function can be used
-     * @param  {Mongo.Collection} mongoCollection Specific mongo collection
+     * @param  {mongodb.Collection} mongoCollection Specific mongo collection
      * @param  {any} query Query object for Mongo
      * @return {Q.Promise<T[]>} Resolves on success into an array of results. Rejects on error with a message
      */
-    export function find<T>(mongoCollection, query) {
-        var deferred = Q.defer();
+    export function find<T>(mongoCollection: mongodb.Collection, query: any) {
+        var deferred = Q.defer<T>();
 
         mongoCollection
             .find(query)
-            .toArray((error: NodeJS.Error, documents: T) => {
+            .toArray((error: Error, documents: any[]) => {
                 if (error) {
                     console.log("Error in find documents for collection:", error);
                     deferred.reject(error);
                     return;
                 }
 
-                deferred.resolve(documents);
+                deferred.resolve(<T>(<any>documents));
             });
 
         return deferred.promise;
@@ -79,23 +79,23 @@ module Database {
 
     /**
      * Query method for a mongo collection
-     * @param  {Mongo.Collection}   mongoCollection Mongo collection
+     * @param  {mongodb.Collection}   mongoCollection Mongo collection
      * @param  {string} callback Callback to call from the collection
      * @param  {any} query Query for the callback
      * @return {Q.Promise<T>} Resolves on success into the result from the query. Rejects on error with the message. 
      */
-    export function query<T>(mongoCollection, callback, query) {
-        var deferred = Q.defer();
+    export function query<T>(mongoCollection: mongodb.Collection, callback: string, query: any) {
+        var deferred = Q.defer<T>();
         console.log("Querying:", callback, query);
         
-        mongoCollection[callback](query, (error: NodeJS.Error, response: T) => {
+        (<any> mongoCollection)[callback](query, (error: Error, response: any[]) => {
             if (error) {
                 console.log("Error 'query':", callback, query, ">>", error);
                 deferred.reject(error);
                 return;
             }
 
-            deferred.resolve(response);
+            deferred.resolve(<T>(<any> response));
         });
 
         return deferred.promise;
