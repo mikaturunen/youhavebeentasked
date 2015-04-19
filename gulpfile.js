@@ -89,6 +89,11 @@ gulp.task(taskCopyToReleaseLocation, function() {
         .pipe(copy(releaseLocation, { prefix: 1 }));
 });
 
+var taskCopyJsonFilesToReleaseLocation = "copy-server-json";
+gulp.task(taskCopyJsonFilesToReleaseLocation, function() {
+    return gulp.src("./backend/**/*.json")
+        .pipe(copy(releaseLocation));
+});
 // Set of GULP Tasks that are executed on demand
 
 /**
@@ -106,7 +111,8 @@ gulp.task("default", function() {
             taskTscServer
         ],
         [
-            taskCopyToReleaseLocation
+            taskCopyToReleaseLocation,
+            taskCopyJsonFilesToReleaseLocation
         ]
     );
 });
