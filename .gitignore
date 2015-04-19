@@ -2,6 +2,9 @@ node_modules/
 frontend/bower
 npm-debug.log
 /tmp
+/release/**/*.jade
+/release/**/*.ts
+/release/**/*.map
 
 # Temporary ignores until I sort these out into working condition
 Brocfile.js
