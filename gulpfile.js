@@ -55,7 +55,7 @@ gulp.task(taskTslintServer, function() {
 
 var taskJade = "jade";
 gulp.task(taskJade, function() {
-    return gulp.src(jadeLocation).pipe(jade()).pipe(gulp.dest(jadeReleaseLocation));
+    return gulp.src(jadeLocation).pipe(jade()).pipe(gulp.dest(path.join(tmpLocation, "/frontend")));
 });
 
 var taskTscServer = "ts-server";
@@ -107,6 +107,7 @@ gulp.task("default", function() {
             taskTslintServer 
         ],
         [ 
+            taskJade,
             taskCopyClient,
             taskTscServer
         ],
