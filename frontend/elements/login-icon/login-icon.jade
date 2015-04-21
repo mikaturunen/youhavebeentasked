@@ -1,0 +1,48 @@
+link(rel="import" href="/public/bower/polymer/polymer.html")
+
+link(rel="import" href="/public/bower/core-icon-button/core-icon-button.html")
+link(rel="import" href="/public/bower/core-ajax/core-ajax.html")
+link(rel="import" href="/public/bower/paper-spinner/paper-spinner.html")
+link(rel="import" href="/public/bower/paper-input/paper-input-decorator.html")
+link(rel="import" href="/public/bower/paper-input/paper-input-decorator.html")
+link(rel="import" href="/public/bower/core-input/core-input.html")
+link(rel="import" href="/public/bower/paper-dialog/paper-dialog.html")
+link(rel="import" href="/public/bower/paper-button/paper-button.html")
+
+
+polymer-element(name="login-icon" attributes="loginIcon logoutIcon authed")
+    template
+        core-ajax(
+            id="TryLoggingIn"
+            url="/api/login"
+            method="POST"
+            handleAs="json"
+            contentType="application/json"
+            on-core-error="{{onLoginError}}"
+            on-core-response="{{onLoginSuccess}}")
+
+        //- Login dialog
+        paper-dialog(heading="Login", backdrop="true", id="Login")
+            div
+                paper-input-decorator(label="Username" floatingLabel)
+                    input(is="core-input" id="Username")
+            div 
+                paper-input-decorator(label="Password" floatingLabel)
+                    input(is="core-input" id="Password" type="password")
+            div
+                paper-button(dismissive on-click="{{closeLoginDialog}}" label="Cancel") Cancel
+                paper-button(affirmative default on-click="{{tryLoggingIn}}" label="Ok") Ok
+        
+        //- Logout dialog
+        paper-dialog(heading="Do you wish to log out?" backdrop="true" id="LogOut")
+            div
+                paper-button(dismissive on-click="{{closeLogOutDialog}}" label="Cancel") Cancel
+                paper-button(affirmative default on-click="{{tryLogOut}}" label="Ok") Ok
+
+        template(if="{{!authed}}")
+            core-icon-button(on-click="{{openLoginDialog}}" icon="{{loginIcon}}")
+        template(if="{{authed}}")
+            core-icon-button(on-click="{{openLogOutDialog}}" icon="{{logoutIcon}}")
+
+
+    script(src="/public/elements/login-icon/login-icon.js")
