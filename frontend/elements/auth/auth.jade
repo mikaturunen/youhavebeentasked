@@ -1,0 +1,12 @@
+link(rel="import" href="/public/bower/polymer/polymer.html")
+link(rel="import" href="/public/bower/core-ajax/core-ajax.html")
+
+polymer-element(name="yhbt-auth")
+    template
+        core-ajax(
+            auto 
+            url="/api/login" 
+            on-core-error="{{onLoginStatusError}}"
+            on-core-response="{{onLoginStatusSuccess}}")
+
+    script(src="/public/elements/auth/auth.js")
