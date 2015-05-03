@@ -112,7 +112,7 @@ var taskCopyToReleaseLocation = "copy";
 gulp.task(taskCopyToReleaseLocation, function() {
     return gulp.src([
             tmpLocation + "**/*.*",
-            tmpLocation + "!**/*.jade"
+            tmpLocation + "!**/*.jade",
             tmpLocation + "!**/*.js"
         ])
         .pipe(copy(releaseLocation, { prefix: 1 }));

@@ -1,3 +1,5 @@
+"use strict";
+
 var mongo = require("../mongo/mongo");
 var config = require("../config/config");
 var task = require("../task/task");

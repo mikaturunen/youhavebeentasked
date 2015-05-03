@@ -11,13 +11,13 @@ Polymer("login-icon", {
      * Tries to login the user by reading the login credentials from the dialog inputs.
      * Called when the user clicks "ok" on the Login dialog.
      */
-    tryLoggingIn: function() {
+    tryLoggingIn: () => {
         console.log("Attempting to login the user.");
         // Setting the user information in the POST data
         // NOTE are you kidding me I have to manually stringify it for consumption with node? -argh-.
-        var stringifiedLoginDetails = JSON.stringify({ 
-            username: this.$.Username.value, 
-            password: this.$.Password.value 
+        var stringifiedLoginDetails = JSON.stringify({
+            username: this.$.Username.value,
+            password: this.$.Password.value
         });
 
         this.$.TryLoggingIn.body = stringifiedLoginDetails;
@@ -29,39 +29,39 @@ Polymer("login-icon", {
      * Tries to log out the user, redirects on success.
      * Called when the user clicks "ok" on the log out dialog.
      */
-    tryLogOut: function() {
+    tryLogOut: () => {
         console.log("Attempting to log out the user.");
         window.location.href = "/api/logout";
     },
-    
+
     /** Opens Login dialog */
-    openLoginDialog: function() {
-        this.$.Login.open();
+    openLoginDialog: () => {
         this.$.Username.focus();
+        this.$.Login.open();
     },
-    
+
     /** Closes Login dialog */
-    closeLoginDialog: function() {
+    closeLoginDialog: () => {
         this.$.Login.close();
     },
 
     /** Opens LogOut dialog */
-    openLogOutDialog: function() {
+    openLogOutDialog: () => {
         this.$.LogOut.open();
     },
-    
+
     /** Closes LogOut dialog */
-    closeLogOutDialog: function() {
+    closeLogOutDialog: () => {
         this.$.LogOut.close();
     },
 
     /** Called on error when the user attempts to login */
-    onLoginError: function(event) {
+    onLoginError: (event: any) => {
         console.log("Error logging in the user.", event.detail.xhr.response);
     },
 
     /** Called on success when the user attempts to login */
-    onLoginSuccess: function(event) {
+    onLoginSuccess: (event: any) =>  {
         console.log("Success logging in the user.");
         var loginDetails = JSON.parse(event.detail.xhr.response);
         console.log(loginDetails);

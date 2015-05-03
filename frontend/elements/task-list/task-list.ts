@@ -4,15 +4,15 @@ Polymer("yhbt-task-list", {
     isLoadingContent: true,
 
     /** @type {Task[]} List of tasks. */
-    tasks: [],
+    tasks: <any[]> [],
 
     /**
      * Adds a task into the Task list.
      * @param {Object} event Event object from the core-ajax event.
      */
-    addTask: function(event) {
+    addTask: (event: any) => {
         var task = JSON.parse(event.detail.xhr.response);
-        
+
         console.log(task);
         this.tasks.push(task);
     },
@@ -20,7 +20,7 @@ Polymer("yhbt-task-list", {
     /**
      * Creates a new task.
      */
-    createNewTask: function() {
+    createNewTask: () => {
         console.log("Creating a new task.");
         this.$.createTask.body = { foo: "bar" };
         this.$.createTask.go();

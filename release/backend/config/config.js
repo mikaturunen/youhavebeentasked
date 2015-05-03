@@ -1,3 +1,5 @@
+"use strict";
+
 var configuration = require("./config.json");
 var config = {};
 Object.keys(configuration).forEach(function (property) {
