@@ -1,3 +1,5 @@
+"use strict";
+
 var mongo = require("../mongo/mongo");
 var config = require("../config/config");
 var team = require("../team/team");
@@ -22,13 +24,13 @@ var Task;
         }).then(function (teams) {
             return mongo.find(Task.collection(), {
                 teamId: { $in: teams.map(function (team) {
-                    return new ObjectId(team._id);
-                }) }
+                        return new ObjectId(team._id);
+                    }) }
             });
         }).then(function (tasks) {
             console.log("Number of tasks found:", tasks.length);
             deferred.resolve(tasks);
-        }).catch(function (error) {
+        })["catch"](function (error) {
             console.log("ERROR:", error);
             deferred.reject(error);
         }).done();

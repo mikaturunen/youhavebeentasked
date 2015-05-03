@@ -1,3 +1,5 @@
+"use strict";
+
 var Q = require("q");
 var config = require("../config/config");
 var mongodb = require("mongodb");
