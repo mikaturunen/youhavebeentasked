@@ -67,16 +67,17 @@ gulp.task(taskJade, function() {
 
 var taskTscServer = "ts-server";
 gulp.task(taskTscServer, function() {
-    var tsc = gulp.src(typeDefinitionsServer)
-                            .pipe(ts({
-                                declarationFiles: true,
-                                noImplicitAny: true,
-                                noExternalResolve: false,
-                                removeComments: true,
-                                target: "es6",
-                                module: "commonjs",
-                                showErrors: true
-                            }));
+    var tsc = gulp
+        .src(typeDefinitionsServer)
+        .pipe(ts({
+            typescript: require("typescript"),
+            declarationFiles: true,
+            noImplicitAny: true,
+            noExternalResolve: false,
+            removeComments: true,
+            module: "commonjs",
+            showErrors: true
+        }));
 
     return eventStream.merge(
         tsc.js.pipe(gulp.dest(path.join(tmpLocation, "/backend")))
@@ -111,9 +112,9 @@ gulp.task(taskCopyClient, function() {
 var taskCopyToReleaseLocation = "copy";
 gulp.task(taskCopyToReleaseLocation, function() {
     return gulp.src([
-            tmpLocation + "**/*.*",
-            tmpLocation + "!**/*.jade",
-            tmpLocation + "!**/*.js"
+            tmpLocation + "**/*.*"
+            //tmpLocation + "!**/*.jade",
+        //    tmpLocation + "!**/*.js"
         ])
         .pipe(copy(releaseLocation, { prefix: 1 }));
 });
@@ -150,7 +151,7 @@ gulp.task("default", function() {
             taskTscServer
         ],
         [
-            babelToReleaseLocation,
+        //    babelToReleaseLocation,
             taskCopyToReleaseLocation,
             taskCopyJsonFilesToReleaseLocation
         ]
