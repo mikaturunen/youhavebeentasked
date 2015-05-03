@@ -1,0 +1,17 @@
+link(rel="import" href="/public/bower/polymer/polymer.html")
+link(rel="import" href="/public/bower/core-collapse/core-collapse.html")
+link(rel="import" href="/public/bower/core-icon-button/core-icon-button.html")
+
+polymer-element(name="yhbt-task" attributes="task")
+    style(type="text/css" src="/public/elements/task/task.css")
+
+    template
+        //- TODO limit the task.title + task.description length if it gets too high, ellipse + cut --> 
+        div.task
+            div.task-title
+                h3 {{task.title}}
+            div.task-description
+                span {{task.description}}
+            div.task-edit
+                        
+    script(src="/public/elements/task/task.js")

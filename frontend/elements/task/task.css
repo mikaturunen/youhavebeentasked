@@ -1,0 +1,16 @@
+html /deep/ h3 {
+    font-size: 14px;
+    margin: 0px;
+    font-weight: bold;
+    color: ;
+}
+
+html /deep/ .task {
+    border: 1px solid #bebebe;
+    padding: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-radius: 2px;
+    background-color: #fff;
+    color: #555;
+}
