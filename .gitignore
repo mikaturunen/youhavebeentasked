@@ -8,5 +8,4 @@ npm-debug.log
 
 # Temporary ignores until I sort these out into working condition
 Brocfile.js
-typedefinitions/
 utility/broccoli-tslint.js
