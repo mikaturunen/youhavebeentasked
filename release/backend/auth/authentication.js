@@ -1,3 +1,5 @@
+"use strict";
+
 var passport = require("passport");
 var passportLocal = require("passport-local");
 var cookieParser = require("cookie-parser");
@@ -22,13 +24,11 @@ function passportHandleUser(user, resultUser, isPassportCall, done) {
             if (isMatch) {
                 delete resultUser.passwordHash;
                 return done(null, resultUser);
-            }
-            else {
+            } else {
                 return done(null, false, { message: "Incorrect username or password" });
             }
         });
-    }
-    else {
+    } else {
         delete resultUser.passwordHash;
         return done(null, resultUser);
     }
@@ -87,8 +87,7 @@ function setupRoutes(app) {
                 }
                 res.status(200).jsonp({ message: "ok" });
             });
-        }
-        else {
+        } else {
             res.status(401).jsonp({ message: "Unauthorized" });
         }
     });
@@ -104,17 +103,16 @@ function setupRoutes(app) {
     });
 }
 var Authentication = {
-    authenticate: function (req, res, callback) {
+    authenticate: function authenticate(req, res, callback) {
         if (!req.user) {
             res.status(401).jsonp({ message: "Unauthorized" });
             return;
         }
         callback(req, res);
     },
-    init: function (app) {
+    init: function init(app) {
         setupPassport(app);
         setupMiddlewaresRelatingToPassport(app);
         setupRoutes(app);
-    },
-};
+    } };
 module.exports = Authentication;

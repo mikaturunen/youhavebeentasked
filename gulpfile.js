@@ -67,37 +67,37 @@ gulp.task(taskJade, function() {
 
 var taskTscServer = "ts-server";
 gulp.task(taskTscServer, function() {
-    var tsServerResult = gulp.src(typeDefinitionsServer)
+    var tsc = gulp.src(typeDefinitionsServer)
                             .pipe(ts({
                                 declarationFiles: true,
                                 noImplicitAny: true,
                                 noExternalResolve: false,
                                 removeComments: true,
-                                target: "ES6",
+                                target: "es6",
                                 module: "commonjs",
                                 showErrors: true
                             }));
 
     return eventStream.merge(
-        tsServerResult.js.pipe(gulp.dest(path.join(tmpLocation, "/backend")))
+        tsc.js.pipe(gulp.dest(path.join(tmpLocation, "/backend")))
     );
 });
 
 var taskTscClient = "ts-client";
 gulp.task(taskTscClient, function() {
-    var tsServerResult = gulp.src(typeDefinitionsClient)
+    var tsc = gulp.src(typeDefinitionsClient)
                             .pipe(ts({
                                 declarationFiles: true,
                                 noImplicitAny: true,
                                 noExternalResolve: false,
                                 removeComments: true,
-                                target: "ES6",
-                                module: "commonjs",
+                                target: "es6",
+                                module: "amd",
                                 showErrors: true
                             }));
 
     return eventStream.merge(
-        tsServerResult.js.pipe(gulp.dest(path.join(tmpLocation, "/frontend")))
+        tsc.js.pipe(gulp.dest(path.join(tmpLocation, "/frontend")))
     );
 });
 
@@ -120,14 +120,17 @@ gulp.task(taskCopyToReleaseLocation, function() {
 
 var babelToReleaseLocation = "babel";
 gulp.task(babelToReleaseLocation, function() {
-    return gulp.src(path.join(tmpLocation, "/backend/") + "**/*.js")
+    return gulp.src(path.join(tmpLocation) + "**/*.js")
         .pipe(babel())
-        .pipe(gulp.dest(path.join(releaseLocation, "/backend")));
+        .pipe(gulp.dest(path.join(releaseLocation)));
 });
 
 var taskCopyJsonFilesToReleaseLocation = "copy-server-json";
 gulp.task(taskCopyJsonFilesToReleaseLocation, function() {
-    return gulp.src("./backend/**/*.json")
+    return gulp.src([
+            path.join("./backend/") + "**/*.json",
+            path.join("./frontend/") + "**/*.css"
+        ])
         .pipe(copy(releaseLocation));
 });
 
