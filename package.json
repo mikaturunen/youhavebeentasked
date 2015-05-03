@@ -40,6 +40,7 @@
     "browserify": "^9.0.8",
     "event-stream": "^3.3.0",
     "gulp": "^3.8.11",
+    "gulp-babel": "^5.1.0",
     "gulp-copy": "0.0.2",
     "gulp-install": "^0.4.0",
     "gulp-jade": "^1.0.0",
