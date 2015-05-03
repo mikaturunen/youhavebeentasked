@@ -88,11 +88,11 @@ var taskTscClient = "ts-client";
 gulp.task(taskTscClient, function() {
     var tsc = gulp.src(typeDefinitionsClient)
                             .pipe(ts({
+                                typescript: require("typescript"),
                                 declarationFiles: true,
                                 noImplicitAny: true,
                                 noExternalResolve: false,
                                 removeComments: true,
-                                target: "es6",
                                 module: "amd",
                                 showErrors: true
                             }));
@@ -112,9 +112,9 @@ gulp.task(taskCopyClient, function() {
 var taskCopyToReleaseLocation = "copy";
 gulp.task(taskCopyToReleaseLocation, function() {
     return gulp.src([
-            tmpLocation + "**/*.*"
-            //tmpLocation + "!**/*.jade",
-        //    tmpLocation + "!**/*.js"
+            tmpLocation + "**/*.*",
+            tmpLocation + "!**/*.jade",
+            tmpLocation + "!**/*.js"
         ])
         .pipe(copy(releaseLocation, { prefix: 1 }));
 });
@@ -151,7 +151,7 @@ gulp.task("default", function() {
             taskTscServer
         ],
         [
-        //    babelToReleaseLocation,
+            babelToReleaseLocation,
             taskCopyToReleaseLocation,
             taskCopyJsonFilesToReleaseLocation
         ]
