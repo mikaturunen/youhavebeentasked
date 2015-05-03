@@ -1,7 +1,8 @@
 
-import mongo = require("../mongo/mongo");
-import config = require("../config/config");
-import team = require("../team/team");
+import mongo from "../mongo/mongo";
+import config from "../config/config";
+import team from "../team/team";
+
 import Q = require("q");
 import mongodb = require("mongodb");
 
@@ -20,7 +21,7 @@ module Task {
 
         return (function() {
             if (!taskCollection) {
-                taskCollection = mongo.collection(config.get().DATABASE_COLLECTION_TASK);
+                taskCollection = mongo.collection(config().DATABASE_COLLECTION_TASK);
             }
 
             return taskCollection;
@@ -39,23 +40,23 @@ module Task {
         mongo.find(team.collection(), {
                 memberIds: { $in: [ new ObjectId(userId) ] }
             })
-            .then((teams: any[]) => { 
+            .then((teams: any[]) => {
                 return mongo.find(Task.collection(), {
-                    teamId: { $in: teams.map(function(team) { return new ObjectId(team._id); }) } 
+                    teamId: { $in: teams.map(function(team) { return new ObjectId(team._id); }) }
                 });
             })
             .then((tasks: any[]) => {
                 console.log("Number of tasks found:", tasks.length);
                 deferred.resolve(tasks);
             })
-            .catch((error: any) => { 
+            .catch((error: any) => {
                 console.log("ERROR:", error);
                 deferred.reject(error);
             })
             .done();
 
         return deferred.promise;
-    } 
+    }
 }
 
-export = Task;
+export default Task;

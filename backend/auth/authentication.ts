@@ -1,14 +1,16 @@
 import passport = require("passport");
 import express = require("express");
-var passportLocal = require("passport-local");
 import cookieParser = require("cookie-parser");
 import bodyParser = require("body-parser");
 import session = require("express-session");
 import bcrypt = require("bcryptjs");
 
-import config = require("../config/config");
-import mongo = require("../mongo/mongo");
-import user = require("../user/user");
+// TODO proper types for passport-local
+var passportLocal = require("passport-local");
+
+import config from "../config/config";
+import mongo from "../mongo/mongo";
+import user from "../user/user";
 
 var localStrategy = passportLocal.Strategy;
 
@@ -20,15 +22,15 @@ var userCollection: any;
  * Handles the passport specific done behavior to resolve into proper Passport state.
  * @param  {User} user Front provided User
  * @param  {User} resultUser Database provided User
- * @param  {boolean} isPassportCall When true, the call to tryFindingUser was made by passport and does not contain password. 
+ * @param  {boolean} isPassportCall When true, the call to tryFindingUser was made by passport and does not contain password.
  * @param  {Function} done Callback for Passport.
  * @return {any} Done result.
  */
 // TODO update User once its defined
 function passportHandleUser(
-        user: any, 
-        resultUser: any, 
-        isPassportCall: boolean, 
+        user: any,
+        resultUser: any,
+        isPassportCall: boolean,
         done: any
     ) {
 
@@ -55,7 +57,7 @@ function passportHandleUser(
             }
         });
     } else {
-        // Called by passport middleware, allow through with no hash 
+        // Called by passport middleware, allow through with no hash
         delete resultUser.passwordHash;
         return done(null, resultUser);
     }
@@ -65,15 +67,15 @@ function passportHandleUser(
  * Tries finding the user with given User details.
  * @param  {{ username: string; password: string; }} userDocument User object to try and find.
  * @param  {Function} done Done function from passport middleware.
- * @param  {boolean} isPassportCall When true, the call to tryFindingUser was made by passport and does not contain password. 
+ * @param  {boolean} isPassportCall When true, the call to tryFindingUser was made by passport and does not contain password.
  * User is logged in and only requires to be checked if the user can be found with the username. Otherwise normal call
  * from frontend and requires password checking.
- * @return {Object} Returned as instructed in Passport configuration guide. 
+ * @return {Object} Returned as instructed in Passport configuration guide.
  */
 // TODO update User once its defined
 function tryFindingUser(
-        userDocument: any, 
-        isPassportCall: boolean, 
+        userDocument: any,
+        isPassportCall: boolean,
         done: any
     ) {
 
@@ -82,7 +84,7 @@ function tryFindingUser(
             // TODO type user once it's done
             (resultUser: any) => {
                 passportHandleUser(userDocument, resultUser, isPassportCall, done);
-            }, 
+            },
             // ToDO use custom error
             (error: any) => {
                 done(error);
@@ -99,8 +101,8 @@ function getConfiguration() {
             return <any> tryFindingUser({
                 username: username,
                 password: password
-            }, 
-            false, 
+            },
+            false,
             done);
     });
 }
@@ -112,7 +114,7 @@ function getConfiguration() {
  */
 // TODO update User once its defined
 function userSerialization(
-        user: any, 
+        user: any,
         done: any
     ) {
 
@@ -126,7 +128,7 @@ function userSerialization(
  */
 // TODO update User once its defined
 function userDeSerialization(
-        user: any, 
+        user: any,
         done: any
     ) {
 
@@ -157,10 +159,10 @@ function setupMiddlewaresRelatingToPassport(app: express.Application) {
         secret: "~46:h.]^H#h5%)HgT0O5{Tfm97hw1Y",
         resave: false,
         saveUninitialized: true,
-        cookie: { 
+        cookie: {
             // NOTE https://github.com/expressjs/session
             // For production vs testing for secure cookies on "Cookie options"
-            secure: false 
+            secure: false
         }
     }));
 
@@ -205,7 +207,7 @@ function setupRoutes(app: express.Application) {
         if (req.logout !== undefined) {
             req.logout();
         }
-        
+
         res.redirect("/");
     });
 }
@@ -214,37 +216,37 @@ function setupRoutes(app: express.Application) {
  * Authentication module that hides all the strategies and behavior behind it.
  * @module Authenticaton
  */
-var Authentication = {
-    // TODO type properly
-    /**
-     * Authenticate user.
-     * @param {UserRequest} req Express Request that has User information attached to it
-     * @param {express.Response} res Express response
-     * @param {any} callback Callback to call once authenticated.
-     */
-    authenticate: (
-            req: UserRequest, 
-            res: express.Response, 
-            callback: (req: UserRequest, res: express.Response) => void
-        ) => {
+ var Authentication = {
+     // TODO type properly
+     /**
+      * Authenticate user.
+      * @param {UserRequest} req Express Request that has User information attached to it
+      * @param {express.Response} res Express response
+      * @param {any} callback Callback to call once authenticated.
+      */
+     authenticate: (
+             req: UserRequest,
+             res: express.Response,
+             callback: (req: UserRequest, res: express.Response) => void
+         ) => {
 
-        if (!req.user) {
-            res.status(401).jsonp({ message: "Unauthorized" });
-            return;
-        }
+         if (!req.user) {
+             res.status(401).jsonp({ message: "Unauthorized" });
+             return;
+         }
 
-        callback(req, res);
-    },
+         callback(req, res);
+     },
 
-    /**
-     * Initialize the authentication
-     * @param {express.Application} app Express application.
-     */
-    init: (app: express.Application) => {
-        setupPassport(app);
-        setupMiddlewaresRelatingToPassport(app);
-        setupRoutes(app);
-    },
-};
+     /**
+      * Initialize the authentication
+      * @param {express.Application} app Express application.
+      */
+     init: (app: express.Application) => {
+         setupPassport(app);
+         setupMiddlewaresRelatingToPassport(app);
+         setupRoutes(app);
+     }
+ };
 
-export = Authentication;
+export default Authentication;

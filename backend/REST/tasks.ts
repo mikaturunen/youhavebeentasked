@@ -7,7 +7,7 @@ var auth = require("../auth/authentication");
 // Requiring express to dig out the real interfaces for response and not the so called merge-ready Express.Response
 import express = require("express");
 
-// These are types that are internally used by this module 
+// These are types that are internally used by this module
 /**
  * Interface that extends the Request object to contain the specified Task object.
  */
@@ -18,7 +18,7 @@ interface TaskRequest extends Express.Request {
     }
 }
 
-/** 
+/**
  * Route for getting task lists.
  * @param {UserRequest} req Request object from Express with the User details contained in it.
  * @param {Express.Response} res Response object from Express
@@ -36,10 +36,10 @@ function getTaskList(req: UserRequest, res: express.Response) {
                 // TODO create real error objects for front to show to the world!
                 res.status(500).jsonp({ foo: "bar" });
             }
-        );   
+        );
 }
 
-/** 
+/**
  * Route for creating new tasks.
  * @param {Express.Request} req Request object from Express
  * @param {Express.Response} res Response object from Express
@@ -70,16 +70,16 @@ module RestifiedTaskRoutes {
      * @param {any} app Express application.
      */
     export function init(app: express.Application) {
-        var prefix = "/api"; 
+        var prefix = "/api";
 
-        app.get(prefix + "/tasks", (req: UserRequest, res: express.Response) => { 
-            auth.authenticate(req, res, getTaskList); 
+        app.get(prefix + "/tasks", (req: UserRequest, res: express.Response) => {
+            auth.authenticate(req, res, getTaskList);
         });
 
-        /*app.post(prefix + "/tasks/new", (req: TaskRequest, res: Express.Response) => { 
-            auth.authenticate(req, res, getTaskList); 
+        /*app.post(prefix + "/tasks/new", (req: TaskRequest, res: Express.Response) => {
+            auth.authenticate(req, res, getTaskList);
         });*/
     }
 }
 
-export = RestifiedTaskRoutes;
+export default RestifiedTaskRoutes;

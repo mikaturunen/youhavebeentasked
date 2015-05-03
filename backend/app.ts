@@ -3,9 +3,10 @@
 
 import express = require("express");
 import path = require("path");
-import authentication = require("./auth/authentication");
-import mongo = require("./mongo/mongo");
-import restifiedTaskRoutes = require("./REST/tasks");
+
+import authentication from "./auth/authentication";
+import mongo from "./mongo/mongo";
+import restifiedTaskRoutes from "./REST/tasks";
 
 // Making sure we have a proper database connection in place
 mongo
@@ -21,7 +22,7 @@ mongo
             // Initialize all REST routes
             restifiedTaskRoutes.init(app);
 
-            // Rest of the pages get index.html and 404 will be handled on the front 
+            // Rest of the pages get index.html and 404 will be handled on the front
             var indexLocation = path.join(__dirname, "..", "/frontend/index.html");
             app.get("*", (req: any, res: any) => {
                 res.sendFile(indexLocation);
@@ -34,6 +35,6 @@ mongo
 
                 console.log("Example app listening at http://%s:%s", host, port);
             });
-        }, 
+        },
         console.log
     );

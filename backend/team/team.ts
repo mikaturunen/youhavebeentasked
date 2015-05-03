@@ -1,8 +1,9 @@
 
-import mongo = require("../mongo/mongo");
+import mongo from "../mongo/mongo";
+import config from "../config/config";
+import team from "../team/team";
+
 import mongodb = require("mongodb");
-import config = require("../config/config");
-import team = require("../team/team");
 import Q = require("q");
 
 var ObjectId = require("mongodb").ObjectId;
@@ -20,7 +21,7 @@ module Team {
 
         return (() => {
             if (!teamCollection) {
-                teamCollection = mongo.collection(config.get().DATABASE_COLLECTION_TEAM);
+                teamCollection = mongo.collection(config().DATABASE_COLLECTION_TEAM);
             }
 
             return teamCollection;
@@ -28,4 +29,4 @@ module Team {
     }
 }
 
-export = Team;
+export default Team;

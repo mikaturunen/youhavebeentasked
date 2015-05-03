@@ -1,10 +1,10 @@
 
 import Q = require("q");
-import config = require("../config/config");
 import mongodb = require("mongodb");
+import { default as config, buildMongoConnection } from "../config/config";
 
 /** @type {string} Urls that's build fron the application configuration and acts as the base configuration. */
-var configuredUrl = config.buildMongoDatabaseConnectionString();
+var configuredUrl = buildMongoConnection();
 /** Database connection to MongoDB */
 var connectedDatabase: any;
 var MongoClient = mongodb.MongoClient;
@@ -82,12 +82,12 @@ module Database {
      * @param  {mongodb.Collection}   mongoCollection Mongo collection
      * @param  {string} callback Callback to call from the collection
      * @param  {any} query Query for the callback
-     * @return {Q.Promise<T>} Resolves on success into the result from the query. Rejects on error with the message. 
+     * @return {Q.Promise<T>} Resolves on success into the result from the query. Rejects on error with the message.
      */
     export function query<T>(mongoCollection: mongodb.Collection, callback: string, query: any) {
         var deferred = Q.defer<T>();
         console.log("Querying:", callback, query);
-        
+
         (<any> mongoCollection)[callback](query, (error: Error, response: any[]) => {
             if (error) {
                 console.log("Error 'query':", callback, query, ">>", error);
@@ -111,4 +111,4 @@ module Database {
     }
 };
 
-export = Database;
+export default Database;

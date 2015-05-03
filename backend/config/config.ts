@@ -24,59 +24,57 @@ Object.keys(configuration).forEach((property: string) => {
     }
 });
 
-module ConfigurationContainer {
-    /**
-     * Interface for the environment relates configurations.
-     */
-    export interface EnvironmentalConfig {
-        DATABASE_URL: string;
-        DATABASE_PORT: string;
-        DATABASE_SUFFIX: string;
-        DATABAASE_USER: string;
-        DATABAASE_PASSWORD: string;
-        DATABASE_COLLECTION_USER: string;
-        DATABASE_COLLECTION_GROUP: string;
-        DATABASE_COLLECTION_TEAM: string;
-        DATABASE_COLLECTION_TASK: string;
-
-        /**
-         * Builds a specific mongodb connection string by combining different related variables.
-         * @returns {string} Connection url to a valid mongo db location
-         */
-        buildMongoDatabaseConnectionString: () => string;
-    }
+/**
+ * Interface for the environment relates configurations.
+ */
+export interface EnvironmentalConfig {
+    DATABASE_URL: string;
+    DATABASE_PORT: string;
+    DATABASE_SUFFIX: string;
+    DATABAASE_USER: string;
+    DATABAASE_PASSWORD: string;
+    DATABASE_COLLECTION_USER: string;
+    DATABASE_COLLECTION_GROUP: string;
+    DATABASE_COLLECTION_TEAM: string;
+    DATABASE_COLLECTION_TASK: string;
 
     /**
-     * Returns the configuration object.
-     * @param {EnvironmentalConfig} configuration file.
+     * Builds a specific mongodb connection string by combining different related variables.
+     * @returns {string} Connection url to a valid mongo db location
      */
-    export function get() {
-        return <EnvironmentalConfig> config;
-    }
-
-    /**
-     * Builds the given mongo database connection string.
-     * @returns {string} Complete connection string to mongodb
-     */
-    export function buildMongoDatabaseConnectionString() {
-        var connection = "mongodb://";
-
-        if (config.DATABASE_USER && config.DATABASE_PASSWORD) {
-            // mongodb://user:password@
-            connection += config.DATABASE_USER + ":" + config.DATABASE_PASSWORD + "@";
-        }
-     
-        // mongodb://user:password@somewhere.com:27012/
-        connection += config.DATABASE_URL + ":" + config.DATABASE_PORT + "/";
-
-        if (config.DATABASE_SUFFIX) {
-            // mongodb://user:password@somewhere.com:27012/application_specific_database
-            connection += "/" + config.DATABASE_SUFFIX;
-        }
-
-        console.log("Connection string:", connection);
-        return connection;
-    }
+    buildMongoDatabaseConnectionString: () => string;
 }
 
-export = ConfigurationContainer;
+/**
+ * Returns the configuration object.
+ * @param {EnvironmentalConfig} configuration file.
+ */
+export function get() {
+    return <EnvironmentalConfig> config;
+}
+
+/**
+ * Builds the given mongo database connection string.
+ * @returns {string} Complete connection string to mongodb
+ */
+export function buildMongoConnection() {
+    var connection = "mongodb://";
+
+    if (config.DATABASE_USER && config.DATABASE_PASSWORD) {
+        // mongodb://user:password@
+        connection += config.DATABASE_USER + ":" + config.DATABASE_PASSWORD + "@";
+    }
+
+    // mongodb://user:password@somewhere.com:27012/
+    connection += config.DATABASE_URL + ":" + config.DATABASE_PORT + "/";
+
+    if (config.DATABASE_SUFFIX) {
+        // mongodb://user:password@somewhere.com:27012/application_specific_database
+        connection += "/" + config.DATABASE_SUFFIX;
+    }
+
+    console.log("Connection string:", connection);
+    return connection;
+}
+
+export default get;
