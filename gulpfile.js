@@ -21,6 +21,9 @@ var source = require("vinyl-source-stream");
 var buffer = require("vinyl-buffer");
 var copy = require("gulp-copy");
 var babel = require("gulp-babel");
+var rimraf = require("gulp-rimraf");
+var ignore = require("gulp-ignore");
+
 
 // Declaring some constants for use during the gulp build process. Mainly the locations of certain files and naming
 // conventions for more easier access later in the process.
@@ -135,12 +138,20 @@ gulp.task(taskCopyJsonFilesToReleaseLocation, function() {
         .pipe(copy(releaseLocation));
 });
 
+var rimrafLocations = "rimraf";
+gulp.task(rimrafLocations, function() {
+    return gulp.src("./release", { read: false }) // much faster
+        .pipe(ignore("/release/frontend/bower/**/*"))
+        .pipe(rimraf());
+});
+
 /**
  * Run with: gulp default.
  * Executes the default task, essentially going through all possible steps.
  */
 gulp.task("default", function() {
     sequence(
+
         [
             taskTslintServer,
             taskTslintClient,

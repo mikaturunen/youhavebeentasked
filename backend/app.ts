@@ -24,7 +24,7 @@ mongo
 
             // Rest of the pages get index.html and 404 will be handled on the front
             var indexLocation = path.join(__dirname, "..", "/frontend/index.html");
-            app.get("*", (req: any, res: any) => {
+            app.get("/", (req: any, res: any) => {
                 res.sendFile(indexLocation);
             });
 
