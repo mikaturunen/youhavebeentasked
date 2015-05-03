@@ -1,18 +1,13 @@
-
+var _this = this;
 Polymer("yhbt-auth", {
-    /** @type {boolean} Has the user authenticated, allowing further communication from front to back. */
     isAuthenticated: false,
-
-    /** Called on error from the login status check */
-    onLoginStatusError: function(event) {
+    onLoginStatusError: function (event) {
         console.log("User is not logged in.");
-        this.isAuthenticated = false;
+        _this.isAuthenticated = false;
     },
-
-    /** Called on success from the login status check */
-    onLoginStatusSuccess: function(event) {
+    onLoginStatusSuccess: function (event) {
         console.log("User is logged in.");
-        this.isAuthenticated = true;
-        this.fire("authenticated", this.isAuthenticated);
+        _this.isAuthenticated = true;
+        _this.fire("authenticated", _this.isAuthenticated);
     }
 });

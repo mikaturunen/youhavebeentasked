@@ -4,13 +4,13 @@ Polymer("yhbt-auth", {
     isAuthenticated: false,
 
     /** Called on error from the login status check */
-    onLoginStatusError: function(event) {
+    onLoginStatusError: (event: any) => {
         console.log("User is not logged in.");
         this.isAuthenticated = false;
     },
 
     /** Called on success from the login status check */
-    onLoginStatusSuccess: function(event) {
+    onLoginStatusSuccess: (event: any) => {
         console.log("User is logged in.");
         this.isAuthenticated = true;
         this.fire("authenticated", this.isAuthenticated);

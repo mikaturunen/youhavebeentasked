@@ -28,10 +28,10 @@ var babel = require("gulp-babel");
 // Definitions explicitly done for this project
 var projectDefinitions = [ ];
 var fromDefinitelyTypedServer = [
-    "definitions/server.d.ts"
+    "typedefinitions/server.d.ts"
 ];
 var fromDefinitelyTypedClient = [
-    "definitions/client.d.ts"
+    "typedefinitions/client.d.ts"
 ];
 
 var typeDefinitionsServer = fromDefinitelyTypedServer
@@ -112,6 +112,7 @@ var taskCopyToReleaseLocation = "copy";
 gulp.task(taskCopyToReleaseLocation, function() {
     return gulp.src([
             tmpLocation + "**/*.*",
+            tmpLocation + "!**/*.jade"
             tmpLocation + "!**/*.js"
         ])
         .pipe(copy(releaseLocation, { prefix: 1 }));
