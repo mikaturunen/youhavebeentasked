@@ -20,6 +20,7 @@ var tsify = require("tsify");
 var source = require("vinyl-source-stream");
 var buffer = require("vinyl-buffer");
 var copy = require("gulp-copy");
+var babel = require("gulp-babel");
 
 // Declaring some constants for use during the gulp build process. Mainly the locations of certain files and naming
 // conventions for more easier access later in the process.
@@ -53,6 +54,12 @@ gulp.task(taskTslintServer, function() {
     return gulp.src(typeDefinitionsServer).pipe(tslint()).pipe(tslint.report("verbose"));
 });
 
+var taskTslintClient = "tslint-client";
+gulp.task(taskTslintClient, function() {
+    return gulp.src(typeDefinitionsClient).pipe(tslint()).pipe(tslint.report("verbose"));
+});
+
+
 var taskJade = "jade";
 gulp.task(taskJade, function() {
     return gulp.src(jadeLocation).pipe(jade()).pipe(gulp.dest(path.join(tmpLocation, "/frontend")));
@@ -76,7 +83,25 @@ gulp.task(taskTscServer, function() {
     );
 });
 
-// TODO update compilation steps for client side 
+var taskTscClient = "ts-client";
+gulp.task(taskTscClient, function() {
+    var tsServerResult = gulp.src(typeDefinitionsClient)
+                            .pipe(ts({
+                                declarationFiles: true,
+                                noImplicitAny: true,
+                                noExternalResolve: false,
+                                removeComments: true,
+                                target: "ES6",
+                                module: "commonjs",
+                                showErrors: true
+                            }));
+
+    return eventStream.merge(
+        tsServerResult.js.pipe(gulp.dest(path.join(tmpLocation, "/frontend")))
+    );
+});
+
+// TODO update compilation steps for client side
 var taskCopyClient = "copy-client";
 gulp.task(taskCopyClient, function() {
     return gulp.src("./frontend/**/*.*")
@@ -85,8 +110,18 @@ gulp.task(taskCopyClient, function() {
 
 var taskCopyToReleaseLocation = "copy";
 gulp.task(taskCopyToReleaseLocation, function() {
-    return gulp.src(tmpLocation + "**/*.*")
+    return gulp.src([
+            tmpLocation + "**/*.*",
+            tmpLocation + "!**/*.js"
+        ])
         .pipe(copy(releaseLocation, { prefix: 1 }));
+});
+
+var babelToReleaseLocation = "babel";
+gulp.task(babelToReleaseLocation, function() {
+    return gulp.src(path.join(tmpLocation, "/backend/") + "**/*.js")
+        .pipe(babel())
+        .pipe(gulp.dest(path.join(releaseLocation, "/backend")));
 });
 
 var taskCopyJsonFilesToReleaseLocation = "copy-server-json";
@@ -94,24 +129,24 @@ gulp.task(taskCopyJsonFilesToReleaseLocation, function() {
     return gulp.src("./backend/**/*.json")
         .pipe(copy(releaseLocation));
 });
-// Set of GULP Tasks that are executed on demand
 
 /**
- * Run with: gulp default. 
+ * Run with: gulp default.
  * Executes the default task, essentially going through all possible steps.
  */
 gulp.task("default", function() {
     sequence(
-        [ 
-            // taskJade, 
-            taskTslintServer 
+        [
+            taskTslintServer,
+            taskTslintClient,
+            taskJade
         ],
-        [ 
-            taskJade,
-            taskCopyClient,
+        [
+            taskTscClient,
             taskTscServer
         ],
         [
+            babelToReleaseLocation,
             taskCopyToReleaseLocation,
             taskCopyJsonFilesToReleaseLocation
         ]
