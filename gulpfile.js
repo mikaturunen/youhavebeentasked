@@ -93,7 +93,7 @@ gulp.task(taskTscClient, function() {
                                 noImplicitAny: true,
                                 noExternalResolve: false,
                                 removeComments: true,
-                                module: "amd",
+                                module: "commonjs",
                                 showErrors: true
                             }));
 
