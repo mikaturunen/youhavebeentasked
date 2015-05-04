@@ -216,7 +216,7 @@ function setupRoutes(app: express.Application) {
  * Authentication module that hides all the strategies and behavior behind it.
  * @module Authenticaton
  */
- var Authentication = {
+ module Authentication {
      // TODO type properly
      /**
       * Authenticate user.
@@ -224,11 +224,11 @@ function setupRoutes(app: express.Application) {
       * @param {express.Response} res Express response
       * @param {any} callback Callback to call once authenticated.
       */
-     authenticate: (
+     export function authenticate(
              req: UserRequest,
              res: express.Response,
              callback: (req: UserRequest, res: express.Response) => void
-         ) => {
+         ) {
 
          if (!req.user) {
              res.status(401).jsonp({ message: "Unauthorized" });
@@ -236,17 +236,17 @@ function setupRoutes(app: express.Application) {
          }
 
          callback(req, res);
-     },
+     }
 
      /**
       * Initialize the authentication
       * @param {express.Application} app Express application.
       */
-     init: (app: express.Application) => {
+     export function init(app: express.Application) {
          setupPassport(app);
          setupMiddlewaresRelatingToPassport(app);
          setupRoutes(app);
      }
- };
+ }
 
 export default Authentication;

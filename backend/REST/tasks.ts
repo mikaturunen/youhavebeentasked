@@ -1,8 +1,7 @@
 
-var mongo = require("../mongo/mongo");
-var config = require("../config/config");
-var task = require("../task/task");
-var auth = require("../auth/authentication");
+import mongo from "../mongo/mongo";
+import task from "../task/task";
+import auth from "../auth/authentication";
 
 // Requiring express to dig out the real interfaces for response and not the so called merge-ready Express.Response
 import express = require("express");
@@ -45,7 +44,7 @@ function getTaskList(req: UserRequest, res: express.Response) {
  * @param {Express.Response} res Response object from Express
  */
 function newTask(req: TaskRequest, res: express.Response) {
-    task
+/*    task
         .insert(req.body.task)
         .done(
             // TODO update task type once it's defined
@@ -57,7 +56,7 @@ function newTask(req: TaskRequest, res: express.Response) {
                 // TODO create real error objects for front to show to the world!
                 res.status(500).jsonp({ foo: "bar" });
             }
-        );
+        );*/
 }
 
 /**
