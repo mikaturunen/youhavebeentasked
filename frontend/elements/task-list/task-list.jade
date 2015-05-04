@@ -9,6 +9,7 @@ polymer-element(name="yhbt-task-list")
         div
             //- Used to fetch tasks 
             core-ajax(
+                auto
                 url="/api/tasks"
                 handleAs="json"
                 loading="{{isLoadingContent}}"
