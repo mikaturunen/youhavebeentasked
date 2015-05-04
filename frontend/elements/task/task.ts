@@ -6,14 +6,14 @@ Polymer("yhbt-task", {
         done: false
     },
 
-    isTaskStarted: () => {
+    isTaskStarted: function() {
         return
     },
 
     /**
      * Starts the current task
      */
-    start: () => {
+    start: function() {
         var currentDate = Date.now();
         this.task.events.push({
             start: currentDate
@@ -23,14 +23,14 @@ Polymer("yhbt-task", {
     /**
      * Pauses the current task
      */
-    pause: () => {
+    pause: function() {
         this.task.events[this.events.length - 1].end = Date.now();
     },
 
     /**
      * Finishes the current task and marks it as done.
      */
-    finish: () => {
+    finish: function() {
         this.task.events[this.events.length - 1].end = Date.now();
         this.task.done = true;
     }

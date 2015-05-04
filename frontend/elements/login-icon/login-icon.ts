@@ -11,7 +11,7 @@ Polymer("login-icon", {
      * Tries to login the user by reading the login credentials from the dialog inputs.
      * Called when the user clicks "ok" on the Login dialog.
      */
-    tryLoggingIn: () => {
+    tryLoggingIn: function() {
         console.log("Attempting to login the user.");
         // Setting the user information in the POST data
         // NOTE are you kidding me I have to manually stringify it for consumption with node? -argh-.
@@ -29,39 +29,39 @@ Polymer("login-icon", {
      * Tries to log out the user, redirects on success.
      * Called when the user clicks "ok" on the log out dialog.
      */
-    tryLogOut: () => {
+    tryLogOut: function() {
         console.log("Attempting to log out the user.");
         window.location.href = "/api/logout";
     },
 
     /** Opens Login dialog */
-    openLoginDialog: () => {
+    openLoginDialog: function() {
         this.$.Username.focus();
         this.$.Login.open();
     },
 
     /** Closes Login dialog */
-    closeLoginDialog: () => {
+    closeLoginDialog: function() {
         this.$.Login.close();
     },
 
     /** Opens LogOut dialog */
-    openLogOutDialog: () => {
+    openLogOutDialog: function() {
         this.$.LogOut.open();
     },
 
     /** Closes LogOut dialog */
-    closeLogOutDialog: () => {
+    closeLogOutDialog: function() {
         this.$.LogOut.close();
     },
 
     /** Called on error when the user attempts to login */
-    onLoginError: (event: any) => {
+    onLoginError: function(event: any) {
         console.log("Error logging in the user.", event.detail.xhr.response);
     },
 
     /** Called on success when the user attempts to login */
-    onLoginSuccess: (event: any) =>  {
+    onLoginSuccess: function(event: any) {
         console.log("Success logging in the user.");
         var loginDetails = JSON.parse(event.detail.xhr.response);
         console.log(loginDetails);
