@@ -2,7 +2,7 @@
 /**
  * ModelTask interface to describe the object
  */
-export interface ModelTask {
+export interface Task {
     _id: string;
     teamId?: string;
     userId: string;
@@ -18,4 +18,11 @@ export interface ModelTask {
     done: boolean;
 
     inventoryIds: string[];
+}
+
+export interface Team {
+    _id: string;
+    name: string;
+    memberIds: string[];
+    organizerIds: string[];
 }
