@@ -26,3 +26,9 @@ export interface Team {
     memberIds: string[];
     organizerIds: string[];
 }
+
+export interface User {
+    _id: string; 
+    username: string;
+    passwordHash: string;
+}
