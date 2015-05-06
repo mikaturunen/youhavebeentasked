@@ -2,7 +2,7 @@
 // TODO add comments
 
 export interface Task {
-    _id: string;
+    _id?: string;
     teamId?: string;
     userId: string;
     title: string;
@@ -20,14 +20,14 @@ export interface Task {
 }
 
 export interface Team {
-    _id: string;
+    _id?: string;
     name: string;
     memberIds: string[];
     organizerIds: string[];
 }
 
 export interface User {
-    _id: string;
+    _id?: string;
     username: string;
     passwordHash: string;
 }
