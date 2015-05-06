@@ -1,7 +1,6 @@
 
-/**
- * ModelTask interface to describe the object
- */
+// TODO add comments
+
 export interface Task {
     _id: string;
     teamId?: string;
@@ -28,7 +27,7 @@ export interface Team {
 }
 
 export interface User {
-    _id: string; 
+    _id: string;
     username: string;
     passwordHash: string;
 }
