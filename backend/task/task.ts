@@ -34,22 +34,22 @@ module Task {
      * @return {Q.Promise<Task[]>} Resolves to Tasks on success. Rejects on Error.
      */
     export function getAllForUser(userId: string) {
-        var deferred = Q.defer<any>();
+        var deferred = Q.defer<Task[]>();
         // TODO take team organizer into account too if required!
 
-        mongo.find(team.collection(), {
+        mongo.find<Team[]>(team.collection(), {
                 memberIds: { $in: [ new ObjectId(userId) ] }
             })
-            .then((teams: any[]) => {
-                return mongo.find(Task.collection(), {
+            .then((teams: Team[]) => {
+                return mongo.find<Task[]>(Task.collection(), {
                     teamId: { $in: teams.map(function(team) { return new ObjectId(team._id); }) }
                 });
             })
-            .then((tasks: any[]) => {
+            .then((tasks: Task[]) => {
                 console.log("Number of tasks found:", tasks.length);
                 deferred.resolve(tasks);
             })
-            .catch((error: any) => {
+            .catch((error: Error) => {
                 console.log("ERROR:", error);
                 deferred.reject(error);
             })
