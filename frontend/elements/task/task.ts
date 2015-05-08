@@ -1,14 +1,12 @@
-Polymer("yhbt-task", {
-    task: {
-        description: "",
-        title: "",
-        events: [],
-        done: false
-    },
+interface YhbtTask {
+    task: Task;
+    start: () => void;
+    pause: () => void;
+    finish: () => void;
+}
 
-    isTaskStarted: function() {
-        return
-    },
+Polymer("yhbt-task", <YhbtTask> {
+    task: undefined,
 
     /**
      * Starts the current task

@@ -1,5 +1,5 @@
-var config = require("../backend/config/config");
-var mongo = require("../backend/mongo/mongo");
+var config = require("../release/backend/config/config").default;
+var mongo = require("../release/backend/mongo/mongo").default;
 var Q = require("q");
 
 mongo
@@ -9,7 +9,7 @@ mongo
         var userCollection = mongo.collection(config.DATABASE_COLLECTION_USER);
         var taskCollection = mongo.collection(config.DATABASE_COLLECTION_TASK);
         var teamCollection = mongo.collection(config.DATABASE_COLLECTION_TEAM);
-        
+
         console.log("Cleaning out mongodb from existing content...");
         userCollection.remove();
         teamCollection.remove();
@@ -33,16 +33,16 @@ mongo
                     passwordHash: "$2a$10$VSLtI7RQgjpLKEFTdIbcnOd54y5nTilsFx6obMn9n2nBJekFpeuM2"
                 }
             ])
-            .then(function() { 
+            .then(function() {
                 return Q.all([
                     mongo.query(userCollection, "findOne", { username: "Mack" }),
                     mongo.query(userCollection, "findOne", { username: "Ben" }),
                     mongo.query(userCollection, "findOne", { username: "Steve" }),
                     mongo.query(userCollection, "findOne", { username: "Barley" })
-                ]); 
+                ]);
             })
             .then(function(users) {
-                return mongo.query(teamCollection, "insert", {  
+                return mongo.query(teamCollection, "insert", {
                     name: "Delivery",
                     memberIds: users.map(function(user) { return user._id; }),
                     organizerIds: users[0]._id
@@ -58,7 +58,7 @@ mongo
                     {
                         teamId: team._id,
                         title: "Flower delivery",
-                        description: "",
+                        description: "Delivering flowers",
                         plannedEvents: [],
                         actualEvents: [],
                         done: false
@@ -66,7 +66,7 @@ mongo
                     {
                         teamId: team._id,
                         title: "Ash delivery",
-                        description: "",
+                        description: "Salting the ground",
                         plannedEvents: [],
                         actualEvents: [],
                         done: false
@@ -82,7 +82,7 @@ mongo
                     {
                         teamId: team._id,
                         title: "Flower delivery",
-                        description: "",
+                        description: "Something 123",
                         plannedEvents: [],
                         actualEvents: [],
                         done: false
@@ -95,4 +95,3 @@ mongo
             });
 
     }, console.log);
-

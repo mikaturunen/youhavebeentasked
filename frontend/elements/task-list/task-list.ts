@@ -1,10 +1,17 @@
 
-Polymer("yhbt-task-list", {
+interface YhbtTaskList {
+    isLoadingContent: boolean;
+    tasks: Task[];
+    addTask: (event: any) => void;
+    createNewTask: () => void;
+}
+
+Polymer("yhbt-task-list", <YhbtTaskList> {
     /** @type {boolean} Is loading content by default, display spinner */
     isLoadingContent: true,
 
     /** @type {Task[]} List of tasks. */
-    tasks: <any[]> [],
+    tasks: [],
 
     /**
      * Adds a task into the Task list.

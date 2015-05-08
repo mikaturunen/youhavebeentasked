@@ -2,10 +2,11 @@ link(rel="import" href="/public/bower/polymer/polymer.html")
 link(rel="import" href="/public/bower/core-collapse/core-collapse.html")
 link(rel="import" href="/public/bower/core-icon-button/core-icon-button.html")
 
-polymer-element(name="yhbt-task" attributes="task")
+polymer-element(name="yhbt-task" attributes="task preview")
     style(type="text/css" src="/public/elements/task/task.css")
 
-    template
+    //- Display only the minor details of the task if in preview mode
+    template(if="{{preview}}")
         //- TODO limit the task.title + task.description length if it gets too high, ellipse + cut --> 
         div.task
             div.task-title
@@ -13,5 +14,10 @@ polymer-element(name="yhbt-task" attributes="task")
             div.task-description
                 span {{task.description}}
             div.task-edit
-                        
+            
+    //- When not in preview mode, display the whole task at hand, fetch it
+    template(if="{{!preview}}")
+        div.task   
+            span NOT A PREVIEW :D
+    
     script(src="/public/elements/task/task.js")
