@@ -1,7 +1,7 @@
 
 // TODO add comments
 
-export interface Task {
+interface Task {
     _id?: string;
     teamId?: string;
     userId: string;
@@ -19,14 +19,14 @@ export interface Task {
     inventoryIds: string[];
 }
 
-export interface Team {
+interface Team {
     _id?: string;
     name: string;
     memberIds: string[];
     organizerIds: string[];
 }
 
-export interface User {
+interface User {
     _id?: string;
     username: string;
     passwordHash: string;

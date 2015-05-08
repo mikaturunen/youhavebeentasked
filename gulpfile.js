@@ -89,16 +89,17 @@ gulp.task(taskTscServer, function() {
 
 var taskTscClient = "ts-client";
 gulp.task(taskTscClient, function() {
-    var tsc = gulp.src(typeDefinitionsClient)
-                            .pipe(ts({
-                                typescript: require("typescript"),
-                                declarationFiles: true,
-                                noImplicitAny: true,
-                                noExternalResolve: false,
-                                removeComments: true,
-                                module: "commonjs",
-                                showErrors: true
-                            }));
+    var tsc = gulp
+        .src(typeDefinitionsClient)
+        .pipe(ts({
+            typescript: require("typescript"),
+            declarationFiles: true,
+            noImplicitAny: true,
+            noExternalResolve: false,
+            removeComments: true,
+            module: "commonjs",
+            showErrors: true
+        }));
 
     return eventStream.merge(
         tsc.js.pipe(gulp.dest(path.join(tmpLocation, "/frontend")))
