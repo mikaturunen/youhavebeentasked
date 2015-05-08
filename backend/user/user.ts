@@ -33,7 +33,7 @@ var User = {
      * @return {Q.Promise<User>} Resolves to User on success. Rejects on Error.
      */
     getByUsername: (username: string) => {
-        return mongo.query(User.collection(), "findOne", { username: username });
+        return mongo.query<User>(User.collection(), "findOne", { username: username });
     },
 
     /**
@@ -42,7 +42,7 @@ var User = {
      * @return {Q.Promise<User>} Resolves to User on success. Rejects on Error.
      */
     getById: (userId: string) => {
-        return mongo.query(User.collection(), "findOne", { _id: new ObjectId(userId) });
+        return mongo.query<User>(User.collection(), "findOne", { _id: new ObjectId(userId) });
     }
 }
 
