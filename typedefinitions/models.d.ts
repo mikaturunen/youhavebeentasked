@@ -1,6 +1,9 @@
 
 // TODO add comments
 
+/**
+ * Simple interface for a Task.
+ */
 interface Task {
     _id?: string;
     teamId?: string;
@@ -19,6 +22,9 @@ interface Task {
     inventoryIds: string[];
 }
 
+/**
+ * Interface for Team. Team collects Users under it as members.
+ */
 interface Team {
     _id?: string;
     name: string;
@@ -26,8 +32,14 @@ interface Team {
     organizerIds: string[];
 }
 
+
 interface User {
     _id?: string;
     username: string;
     passwordHash: string;
+}
+
+interface LoginCredentials {
+    username: string;
+    password: string;
 }
