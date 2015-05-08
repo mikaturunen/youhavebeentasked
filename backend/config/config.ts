@@ -1,28 +1,33 @@
 
-var configuration = require("./config.json");
+const configuration = require("./config.json");
 
 /** @type {Object} Exposed configuration object that will be built from config.json and environmental variables.  */
-var config: any = { };
+let config: any = { };
 
-// Loads all the keys into the Config Object.
-Object.keys(configuration).forEach((property: string) => {
-    if (property.slice(0, 2) == "__") {
-        // Values that start with __ can be skipped, they are meant for information only so the 3rd party can understand
-        // the json (they are like comments) - json by nature does not support comments so..
-        return;
-    }
+/**
+ * Loads the configuration object with details from process.env and config.json
+ */
+function loadConfiguration() {
+    // Loads all the keys into the Config Object.
+    Object.keys(configuration).forEach((property: string) => {
+        if (property.slice(0, 2) == "__") {
+            // Values that start with __ can be skipped, they are meant for information only so the 3rd party can understand
+            // the json (they are like comments) - json by nature does not support comments so..
+            return;
+        }
 
-    var value = configuration[property];
+        var value = configuration[property];
 
-    if (process.env[property] !== "" && process.env[property] !== null && process.env[property] !== undefined) {
-        value = process.env[property];
-    }
+        if (process.env[property] !== "" && process.env[property] !== null && process.env[property] !== undefined) {
+            value = process.env[property];
+        }
 
-    if (value !== null && value !== undefined && value.trim() !== "") {
-        console.log("Config key value:", property, value);
-        config[property] = value;
-    }
-});
+        if (value !== null && value !== undefined && value.trim() !== "") {
+            console.log("Config key value:", property, value);
+            config[property] = "" + value;
+        }
+    });
+}
 
 /**
  * Interface for the environment relates configurations.
@@ -45,11 +50,18 @@ export interface EnvironmentalConfig {
     buildMongoDatabaseConnectionString: () => string;
 }
 
+let isConfigured = false;
+
 /**
  * Returns the configuration object.
  * @param {EnvironmentalConfig} configuration file.
  */
 export function get() {
+    if (!isConfigured) {
+        isConfigured = !isConfigured;
+        loadConfiguration();
+    }
+
     return <EnvironmentalConfig> config;
 }
 
@@ -58,6 +70,11 @@ export function get() {
  * @returns {string} Complete connection string to mongodb
  */
 export function buildMongoConnection() {
+    if (!isConfigured) {
+        isConfigured = !isConfigured;
+        loadConfiguration();
+    }
+    
     var connection = "mongodb://";
 
     if (config.DATABASE_USER && config.DATABASE_PASSWORD) {
