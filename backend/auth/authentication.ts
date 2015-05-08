@@ -20,15 +20,14 @@ var userCollection: any;
 
 /**
  * Handles the passport specific done behavior to resolve into proper Passport state.
- * @param  {User} user Front provided User
+ * @param  {LoginCredentials} user Front provided User
  * @param  {User} resultUser Database provided User
  * @param  {boolean} isPassportCall When true, the call to tryFindingUser was made by passport and does not contain password.
  * @param  {Function} done Callback for Passport.
  * @return {any} Done result.
  */
-// TODO update User once its defined
 function passportHandleUser(
-        user: any,
+        user: LoginCredentials,
         resultUser: any,
         isPassportCall: boolean,
         done: any
@@ -65,28 +64,25 @@ function passportHandleUser(
 
 /**
  * Tries finding the user with given User details.
- * @param  {{ username: string; password: string; }} userDocument User object to try and find.
+ * @param  {User} userDocument User object to try and find.
  * @param  {Function} done Done function from passport middleware.
  * @param  {boolean} isPassportCall When true, the call to tryFindingUser was made by passport and does not contain password.
  * User is logged in and only requires to be checked if the user can be found with the username. Otherwise normal call
  * from frontend and requires password checking.
  * @return {Object} Returned as instructed in Passport configuration guide.
  */
-// TODO update User once its defined
 function tryFindingUser(
-        userDocument: any,
+        userDocument: LoginCredentials,
         isPassportCall: boolean,
         done: any
     ) {
 
     user.getByUsername(userDocument.username)
         .done(
-            // TODO type user once it's done
-            (resultUser: any) => {
+            (resultUser: User) => {
                 passportHandleUser(userDocument, resultUser, isPassportCall, done);
             },
-            // ToDO use custom error
-            (error: any) => {
+            (error: Error) => {
                 done(error);
             }
         );
@@ -109,12 +105,11 @@ function getConfiguration() {
 
 /**
  * User serialization function. Serializes the user for passport.
- * @param  {User}   user User object to serialize.
+ * @param  {User | LoginCredentials}   user User object to serialize.
  * @param  {passportLocal.VerifyFunction} done Middleware verification callback for Express and Passport combination
  */
-// TODO update User once its defined
 function userSerialization(
-        user: any,
+        user: User,
         done: any
     ) {
 
@@ -123,12 +118,11 @@ function userSerialization(
 
 /**
  * Attempts to deserialize the user.
- * @param  {User}   user User to try and deserialize.
+ * @param  {LoginCredentials}   user User to try and deserialize.
  * @param  {passportLocal.VerifyFunction} done Middleware verification callback for Express and Passport combination
  */
-// TODO update User once its defined
 function userDeSerialization(
-        user: any,
+        user: LoginCredentials,
         done: any
     ) {
 
@@ -173,19 +167,14 @@ function setupMiddlewaresRelatingToPassport(app: express.Application) {
     app.use(passport.session());
 }
 
-// TODO remove call counter, useless - was used to catch an early bug
-var callCounter = 0;
 /**
  * Setups authentication and authorization related routes in place for the user.
  * @param  {Express.Application} app Express application
  */
 function setupRoutes(app: express.Application) {
     app.get("/api/login", (req: UserRequest, res: express.Response) => {
-        callCounter += 1;
-
         if (req.user) {
-            // TODO tuse user
-            tryFindingUser(req.user, true, (error: any, user: any, message: any) => {
+            tryFindingUser(req.user, true, (error: any, user: User | boolean, message: any) => {
                 if (error || user === false) {
                     res.status(401).jsonp({ message: "Unauthorized" });
                     return;
@@ -217,7 +206,6 @@ function setupRoutes(app: express.Application) {
  * @module Authenticaton
  */
  module Authentication {
-     // TODO type properly
      /**
       * Authenticate user.
       * @param {UserRequest} req Express Request that has User information attached to it
