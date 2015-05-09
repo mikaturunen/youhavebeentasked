@@ -126,7 +126,9 @@ gulp.task(taskCopyToReleaseLocation, function() {
 var babelToReleaseLocation = "babel";
 gulp.task(babelToReleaseLocation, function() {
     return gulp.src(path.join(tmpLocation) + "**/*.js")
-        .pipe(babel())
+        .pipe(babel({
+            comments: false,
+        }))
         .pipe(gulp.dest(path.join(releaseLocation)));
 });
 
@@ -141,8 +143,7 @@ gulp.task(taskCopyJsonFilesToReleaseLocation, function() {
 
 var rimrafLocations = "rimraf";
 gulp.task(rimrafLocations, function() {
-    return gulp.src("./release", { read: false }) // much faster
-        .pipe(ignore("/release/frontend/bower/**/*"))
+    return gulp.src("./release/backend/", { read: false }) // much faster
         .pipe(rimraf());
 });
 
@@ -152,7 +153,7 @@ gulp.task(rimrafLocations, function() {
  */
 gulp.task("default", function() {
     sequence(
-
+        rimrafLocations,
         [
             taskTslintServer,
             taskTslintClient,
