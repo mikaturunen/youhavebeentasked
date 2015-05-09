@@ -6,6 +6,7 @@ interface YhbtTask {
     start: () => void;
     pause: () => void;
     finish: () => void;
+    showTaskDetails: () => void;
 }
 
 Polymer("yhbt-task", <YhbtTask> {
@@ -36,5 +37,14 @@ Polymer("yhbt-task", <YhbtTask> {
     finish: function() {
         this.task.events[this.events.length - 1].end = Date.now();
         this.task.done = true;
+    },
+
+    /**
+     * Shows the complete details for a selected task.
+     */
+    showTaskDetails: function() {
+        // TODO should we at this point refetch the task details?
+        this.preview = false;
+        console.log("Preview:", this.preview);
     }
 });
