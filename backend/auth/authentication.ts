@@ -1,9 +1,12 @@
+"use strict";
+
 import passport = require("passport");
 import express = require("express");
 import cookieParser = require("cookie-parser");
 import bodyParser = require("body-parser");
 import session = require("express-session");
 import bcrypt = require("bcryptjs");
+var mongoStore = require("connect-mongostore")(session);
 
 // TODO proper types for passport-local
 var passportLocal = require("passport-local");
@@ -157,7 +160,10 @@ function setupMiddlewaresRelatingToPassport(app: express.Application) {
             // NOTE https://github.com/expressjs/session
             // For production vs testing for secure cookies on "Cookie options"
             secure: false
-        }
+        },
+        store: new mongoStore({
+            "db": "sessions"
+        })
     }));
 
     // Express based application, we'll reroute the passport middlewares in place.
