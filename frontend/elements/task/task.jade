@@ -4,20 +4,21 @@ link(rel="import" href="/public/bower/core-icon-button/core-icon-button.html")
 
 polymer-element(name="yhbt-task" attributes="task preview")
     style(type="text/css" src="/public/elements/task/task.css")
-
-    //- Display only the minor details of the task if in preview mode
-    template(if="{{preview}}")
-        //- TODO limit the task.title + task.description length if it gets too high, ellipse + cut --> 
-        div.task
-            div.task-title
-                h3 {{task.title}}
-            div.task-description
-                span {{task.description}}
-            div.task-edit
-            
-    //- When not in preview mode, display the whole task at hand, fetch it
-    template(if="{{!preview}}")
-        div.task   
-            span NOT A PREVIEW :D
+    //- base template for the component itself
+    template
+        //- Preview mode: show only title + high-level details
+        template(if="{{preview === true}}")
+            //- TODO limit the task.title + task.description length if it gets too high, ellipse + cut --> 
+            div.task
+                div.task-title
+                    h3 {{task.title}}
+                div.task-description
+                    span {{task.description}}
+                    div.task-edit
+        
+        //- When not in preview mode we show full details of the task
+        template(if="{{preview === false}}")    
+            div.task   
+                span NOT A PREVIEW :D
     
     script(src="/public/elements/task/task.js")

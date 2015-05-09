@@ -1,5 +1,8 @@
+"use strict";
+
 interface YhbtTask {
     task: Task;
+    preview: boolean;
     start: () => void;
     pause: () => void;
     finish: () => void;
@@ -7,6 +10,8 @@ interface YhbtTask {
 
 Polymer("yhbt-task", <YhbtTask> {
     task: undefined,
+
+    preview: true,
 
     /**
      * Starts the current task
