@@ -30,7 +30,8 @@
     "mongodb": "^2.0.25",
     "passport": "^0.2.1",
     "passport-local": "^1.0.0",
-    "q": "^1.2.0"
+    "q": "^1.2.0",
+    "yhbt-definitions": "0.0.1"
   },
   "devDependencies": {
     "broccoli": "^0.15.3",
