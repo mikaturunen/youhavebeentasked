@@ -1,5 +1,3 @@
 # You have been tasked
 
-
-You have been tasked! is a simple task management tool, aiming to make task management easy and fun.
-
+All development halted and moved to https://github.com/mikaturunen/yhbt
